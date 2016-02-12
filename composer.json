@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "bcosca/fatfree": "*",
         "robintail/ace-builds": "*",
         "components/jquery": "2.2.*",
         "twbs/bootstrap": "3.*",

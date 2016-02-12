@@ -2,10 +2,17 @@ $(function(){
     var editor = ace.edit("editor");
     var PhpMode = ace.require("ace/mode/php").Mode;
     var postCode = function(editor) {
-        $.post('/eval.php', {'code': editor.getSession().getValue()}, function(response){
+        $.post('/execute', {'code': editor.getSession().getValue()}, function(response){
             $('.output').html(response);
         });
     };
+
+    $('.reload').click(function(e){
+        e.preventDefault();
+        $.get('/get_last', function(response){
+            editor.setValue(response);
+        })
+    });
 
     $('.evaluate').click(function(e){
         e.preventDefault();
@@ -19,6 +26,7 @@ $(function(){
     editor.setTheme("ace/theme/ambiance");
     editor.session.setMode(new PhpMode());
     editor.getSession().setUseWrapMode(true);
+    editor.setShowPrintMargin(false);
 
 
     // PhpStorm key bindings

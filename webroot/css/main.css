@@ -46,6 +46,10 @@ html,body {
     white-space: pre;
 }
 
+.xdebug-error {
+    color: #222;
+}
+
 #editor {
     position: absolute;
     width: 100%;
