@@ -1,0 +1,31 @@
+{
+    "name": "plugowski/php_sandbox",
+    "description": "Simple sandbox for to quick evaluation of php code.",
+    "authors": [
+        {
+            "name": "Paweł Ługowski",
+            "email": "pawelugowski@gmail.com"
+        }
+    ],
+    "require": {
+        "robintail/ace-builds": "*",
+        "twbs/bootstrap": "3.*",
+        "fortawesome/font-awesome": "4.*",
+        "php": ">=5.3.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpSandbox\\": "src/"
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "cp -R vendor/twbs/bootstrap/dist/ webroot/",
+            "mkdir -p webroot/js/ace",
+            "cp -R vendor/robintail/ace-builds/src/ webroot/js/ace/"
+        ]
+    }
+}
