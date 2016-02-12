@@ -1,0 +1,54 @@
+html,body {
+    height:100%;
+    background-color: #333;
+}
+
+.navbar {
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.navbar-brand small {
+    font-size: 11px;
+}
+
+.actions {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+}
+
+.actions .checkbox {
+    display: inline;
+    color: #9d9d9d;
+    font-weight: normal;
+}
+
+.row {
+    margin-right: 0;
+}
+
+.preview {
+    padding-right: 0;
+}
+
+.output {
+    color: #ddd;
+    background-color: #262626;
+    border-left: solid 5px #333;
+    font-family: monospace;
+    padding: 10px 20px 10px 20px;
+    height: calc(100vh - 52px);
+    overflow: auto;
+}
+
+.output.format {
+    white-space: pre;
+}
+
+#editor {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 52px);
+}
+

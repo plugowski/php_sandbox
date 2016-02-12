@@ -1,6 +1,6 @@
 {
     "name": "plugowski/php_sandbox",
-    "description": "Simple sandbox for to quick evaluation of php code.",
+    "description": "Simple sandbox to quick evaluation php code.",
     "authors": [
         {
             "name": "Paweł Ługowski",
@@ -9,6 +9,7 @@
     ],
     "require": {
         "robintail/ace-builds": "*",
+        "components/jquery": "2.2.*",
         "twbs/bootstrap": "3.*",
         "fortawesome/font-awesome": "4.*",
         "php": ">=5.3.6"
@@ -25,7 +26,10 @@
         "post-update-cmd": [
             "cp -R vendor/twbs/bootstrap/dist/ webroot/",
             "mkdir -p webroot/js/ace",
-            "cp -R vendor/robintail/ace-builds/src/ webroot/js/ace/"
+            "cp vendor/components/jquery/jquery.min.js webroot/js/",
+            "cp -R vendor/robintail/ace-builds/src/ webroot/js/ace/",
+            "cp -R vendor/fortawesome/font-awesome/css/ webroot/css/",
+            "cp -R vendor/fortawesome/font-awesome/fonts/ webroot/fonts/"
         ]
     }
 }

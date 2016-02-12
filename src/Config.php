@@ -10,7 +10,8 @@ class Config
      * @var array
      */
     public static $disable_functions = [
-        'exec', 'passthru', 'shell_exec', 'system', 'proc_open', 'popen', 'curl_exec', 'curl_multi_exec',
+        'exec', 'passthru', 'shell_exec', 'system',
+        'proc_open', 'popen', 'curl_exec', 'curl_multi_exec',
         'parse_ini_file', 'show_source'
     ];
     /**
