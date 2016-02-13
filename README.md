@@ -2,6 +2,10 @@
 
 Simple and usefull tool to execute custom php scripts. It allows to block specified function to increase security.
 
+## Screenshot
+
+<img src="http://blog.lugowski.eu/wp-content/uploads/2016/02/php_sandbox.png" alt="PHP Sandbox" border="0" />
+
 ## Installation
 
 Clone that repository wherever you want (in my example `/www/php_sandbox`), then in base dir run:
@@ -55,6 +59,7 @@ Ctrl-S | Command-S | Execute code
 
 To build that tool I used:
 
+- FatFree framework - http://fatfreeframework.com/
 - Ace Editor - https://ace.c9.io/
 - Bootstrap - https://getbootstrap.com/
 - FontAwesome - http://fortawesome.github.io/Font-Awesome/
