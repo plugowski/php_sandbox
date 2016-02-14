@@ -1,20 +1,37 @@
 <?php
-use PhpSandbox\Config;
-use PhpSandbox\Evaluator;
+use PhpSandbox\Evaluator\Config;
+use PhpSandbox\Evaluator\Evaluator;
 
 /**
  * Class EvaluatorTest
  */
 class EvaluatorTest extends PHPUnit_Framework_TestCase
 {
+
+    /**
+     * @return Evaluator
+     */
+    private function getEvaluator()
+    {
+        return new Evaluator(new Config(__DIR__ . '/../src/config.php'));
+    }
+
+    /**
+     * remove code.php file after test
+     */
+    private function clear()
+    {
+        unlink((new Config(__DIR__ . '/../src/config.php'))->read('tmp_dir') . Evaluator::FILENAME);
+    }
+
     /**
      * @test
      */
     public function shouldEvaluatePhpCode()
     {
-        $evaluator = new Evaluator();
+        $evaluator = $this->getEvaluator();
         $result = $evaluator->evaluate('<?php echo "blabla";');
-        unlink(Config::$tempDir . Evaluator::FILENAME);
+        $this->clear();
 
         $this->assertEquals('blabla', $result);
     }
@@ -26,11 +43,11 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
     {
         $code = '<?php echo "blabla";';
 
-        $evaluator = new Evaluator();
+        $evaluator = $this->getEvaluator();
         $evaluator->evaluate($code);
 
         $this->assertEquals($code, $evaluator->getLastCode());
-        unlink(Config::$tempDir . Evaluator::FILENAME);
+        $this->clear();
     }
 
     /**
@@ -38,9 +55,9 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
      */
     public function shouldReturnBenchmarks()
     {
-        $evaluator = new Evaluator();
+        $evaluator = $this->getEvaluator();
         $evaluator->evaluate('<?php echo "blabla";');
-        unlink(Config::$tempDir . Evaluator::FILENAME);
+        $this->clear();
 
         $this->assertTrue(is_numeric($evaluator->getMemoryPeak()));
         $this->assertTrue(is_numeric($evaluator->getMemory()));
@@ -52,9 +69,9 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
      */
     public function shouldReturnErrorMessage()
     {
-        $evaluator = new Evaluator();
+        $evaluator = $this->getEvaluator();
         $result = $evaluator->evaluate('<?php shell_exec("ls -la");');
-        unlink(Config::$tempDir . Evaluator::FILENAME);
+        $this->clear();
 
         $this->assertRegExp('/has been disabled/', $result);
     }
@@ -65,6 +82,6 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
     public function shouldThrowExceptionFileNotFound()
     {
         $this->setExpectedException('Exception');
-        (new Evaluator())->evaluateFile('test.php');
+        $this->getEvaluator()->evaluateFile('test.php');
     }
 }

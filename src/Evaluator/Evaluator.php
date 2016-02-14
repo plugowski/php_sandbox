@@ -1,5 +1,5 @@
 <?php
-namespace PhpSandbox;
+namespace PhpSandbox\Evaluator;
 
 /**
  * Class Evaluator
@@ -10,13 +10,6 @@ class Evaluator
     const FILENAME = 'code.php';
     const BENCHMARK_PATTERN = '/#benchmark#/';
 
-    /**
-     * @var array
-     */
-    private $benchmarks = [
-        'memory' => 'memory_get_usage()',
-        'memory_peak' => 'memory_get_peak_usage()'
-    ];
     /**
      * @var int
      */
@@ -29,6 +22,19 @@ class Evaluator
      * @var int
      */
     private $time;
+    /**
+     * @var Config
+     */
+    private $config;
+
+    /**
+     * Evaluator constructor.
+     * @param Config $config
+     */
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * @param string $code
@@ -36,7 +42,7 @@ class Evaluator
      */
     public function evaluate($code)
     {
-        $filename = Config::$tempDir . self::FILENAME;
+        $filename = $this->config->read('tmp_dir') . self::FILENAME;
 
         $code = $this->insertBootstrap($code);
         $code = $this->insertBenchmarks($code);
@@ -62,8 +68,7 @@ class Evaluator
         }
 
         $cmd = [
-            Config::$phpCommand,
-            '-d disable_functions=' . implode(',', Config::$disable_functions),
+            $this->config->read('php_command'),
             $this->getDirectivesString(),
             $filename,
             '3>&1 1>&1 2>&1'
@@ -85,7 +90,7 @@ class Evaluator
      */
     private function insertBootstrap($code)
     {
-        $bootstrapFile = Config::getBootstrapPath();
+        $bootstrapFile = $this->config->read('bootstrap_file');
         if (!strpos($code, $this->requireBootstrapString()) && !empty($bootstrapFile) && file_exists($bootstrapFile)) {
             $code = str_replace('<?php', '<?php' . $this->requireBootstrapString(), $code);
         }
@@ -98,7 +103,7 @@ class Evaluator
      */
     private function requireBootstrapString()
     {
-        return ' require \'' . Config::getBootstrapPath() . '\'; ';
+        return ' require \'' . $this->config->read('bootstrap_file') . '\'; ';
     }
 
     /**
@@ -107,10 +112,10 @@ class Evaluator
      */
     private function insertBenchmarks($code)
     {
-        if (!empty($this->benchmarks)) {
+        if ($this->config->has('benchmarks')) {
             $list = [];
             $insert = 'echo PHP_EOL . \'#benchmark#%s;';
-            foreach ($this->benchmarks as $name => $function) {
+            foreach ($this->config->read('benchmarks') as $name => $function) {
                 $list[] = '#' . $name . ':\' . ' . $function;
             }
             $code .= PHP_EOL . sprintf($insert, implode(' . \'', $list));
@@ -144,8 +149,11 @@ class Evaluator
     private function getDirectivesString()
     {
         $cmd = '';
-        foreach (Config::$other_directives as $name => $value) {
-            $cmd = '-d ' . $name . '=' . $value;
+        if ($this->config->has('disable_functions')) {
+            $cmd .= ' -d disable_functions=' . implode(',', $this->config->read('disable_functions'));
+        }
+        foreach ($this->config->read('directives') as $name => $value) {
+            $cmd .= ' -d ' . $name . '=' . $value;
         }
         return $cmd;
     }
@@ -155,7 +163,7 @@ class Evaluator
      */
     public function getLastCode()
     {
-        $file = file_get_contents(Config::$tempDir . self::FILENAME);
+        $file = file_get_contents($this->config->read('tmp_dir') . self::FILENAME);
         $contents = explode(PHP_EOL, $file);
 
         if (strpos($contents[0], $this->requireBootstrapString())) {

@@ -1,25 +1,28 @@
 <?php
 require(__DIR__ . '/../vendor/autoload.php');
 
-use PhpSandbox\Config;
-use PhpSandbox\Evaluator;
+use PhpSandbox\Evaluator\Config;
+use PhpSandbox\Evaluator\Evaluator;
 
 $f3 = \Base::instance();
+
+// load config file
+$config = new Config(__DIR__ . '/../src/config.php');
 
 /**
  * get last executed script from tmp file
  */
-$f3->route('GET /get_last [ajax]', function() {
+$f3->route('GET /get_last [ajax]', function() use ($config) {
 
-    if (file_exists(Config::$tempDir . '/code.php')) {
-        echo (new Evaluator())->getLastCode();
+    if (file_exists($config->read('tmp_dir') . '/code.php')) {
+        echo (new Evaluator($config))->getLastCode();
     }
 });
 
 /**
  * execute code from post
  */
-$f3->route('POST /execute', function($f3) {
+$f3->route('POST /execute', function($f3) use ($config) {
 
     /** @var \Base $f3 */
     if ($f3->exists('POST.code')) {
@@ -29,7 +32,7 @@ $f3->route('POST /execute', function($f3) {
             $code = '<?php ' . $code;
         }
 
-        $evaluator = new Evaluator();
+        $evaluator = new Evaluator($config);
         $result = $evaluator->evaluate($code);
 
         $benchmark = [
