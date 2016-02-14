@@ -55,11 +55,22 @@ Alt-Shift-Down | Option-Shift-Down | Move lines down
 Ctrl-D | Command-D | Copy line
 Ctrl-S | Command-S | Execute code
 
+## Changelog
+- 1.1
+  - added Kint debug tool for dumping varialbles
+  - refactored Config class
+- 1.0
+  - Initial release
+  - visual editor based on ace
+  - simple benchmarking (count memory usage, memory peak and execution time)
+  - "last load" option
+
 ## Credits
 
 To build that tool I used:
 
 - FatFree framework - http://fatfreeframework.com/
+- Kint - http://raveren.github.io/kint/
 - Ace Editor - https://ace.c9.io/
 - Bootstrap - https://getbootstrap.com/
 - FontAwesome - http://fortawesome.github.io/Font-Awesome/
