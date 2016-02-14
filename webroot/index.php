@@ -44,12 +44,16 @@
     </div>
 
 </nav>
-
 <div class="row">
     <div class="col-xs-6">
         <div id="editor"></div>
     </div>
     <div class="col-xs-6 preview">
+        <div id="benchmark">
+            <span data-toggle="tooltip" data-placement="top" title="Memory Usage"><i class="fa fa-tachometer"></i> <span class="memory">0.000</span> MB</span>,
+            <span data-toggle="tooltip" data-placement="top" title="Memory Peak"><i class="fa fa-area-chart"></i> <span class="memory_peak">0.000</span> MB</span>,
+            <span data-toggle="tooltip" data-placement="top" title="Time"><i class="fa fa-clock-o"></i> <span class="time">0.00</span> ms</span>
+        </div>
         <div class="output">Press Cmd+Enter/Ctrl+Enter to execute...<br/>Output goes here...</div>
     </div>
 </div>

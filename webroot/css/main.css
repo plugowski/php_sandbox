@@ -30,6 +30,7 @@ html,body {
 
 .preview {
     padding-right: 0;
+    position: relative;
 }
 
 .output {
@@ -40,6 +41,18 @@ html,body {
     padding: 10px 20px 10px 20px;
     height: calc(100vh - 52px);
     overflow: auto;
+}
+
+#benchmark {
+    color: #ddd;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 11px;
+    background: #222;
+    padding: 6px 13px;
+    border-radius: 4px 0 0 0;
+    opacity: 0.85;
 }
 
 .output.format {

@@ -1,9 +1,16 @@
 $(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+
     var editor = ace.edit("editor");
     var PhpMode = ace.require("ace/mode/php").Mode;
     var postCode = function(editor) {
         $.post('/execute', {'code': editor.getSession().getValue()}, function(response){
-            $('.output').html(response);
+            var json = $.parseJSON(response);
+
+            $('.output').html(json.result);
+            $('#benchmark .memory').html(json.benchmark.memory);
+            $('#benchmark .memory_peak').html(json.benchmark.memory_peak);
+            $('#benchmark .time').html(json.benchmark.time);
         });
     };
 

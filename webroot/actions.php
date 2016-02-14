@@ -12,7 +12,7 @@ $f3 = \Base::instance();
 $f3->route('GET /get_last [ajax]', function() {
 
     if (file_exists(Config::$tempDir . '/code.php')) {
-        echo file_get_contents(Config::$tempDir . '/code.php');
+        echo (new Evaluator())->getLastCode();
     }
 });
 
@@ -26,11 +26,19 @@ $f3->route('POST /execute', function($f3) {
 
         $code = $f3->get('POST.code');
         if (!preg_match('/^<\?php.*/', $code)) {
-            $code = '<?php' . PHP_EOL . $code;
+            $code = '<?php ' . $code;
         }
 
         $evaluator = new Evaluator();
-        echo $evaluator->evaluate($code);
+        $result = $evaluator->evaluate($code);
+
+        $benchmark = [
+            'memory' => sprintf('%.3f', ($evaluator->getMemory()) / 1024.0 / 1024.0),
+            'memory_peak' => sprintf('%.3f', ($evaluator->getMemoryPeak()) / 1024.0 / 1024.0),
+            'time' => sprintf('%.3f', (($evaluator->getTime()) * 1000))
+        ];
+
+        echo json_encode(compact('result', 'benchmark'));
     }
 });
 
