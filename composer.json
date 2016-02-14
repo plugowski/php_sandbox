@@ -7,8 +7,15 @@
             "email": "pawelugowski@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/plugowski/kint.git"
+        }
+    ],
     "require": {
         "bcosca/fatfree": "*",
+        "raveren/kint": "dev-cli_detection_fix",
         "robintail/ace-builds": "*",
         "components/jquery": "2.2.*",
         "twbs/bootstrap": "3.*",

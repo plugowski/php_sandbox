@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "309693705f3d73f2e68979f2253ae352",
-    "content-hash": "dc270974143bf1bc7ad990e84d3fb07a",
+    "hash": "38dc6deb891f3e62a8f7b80738a51c0b",
+    "content-hash": "10515ef4759f592129d60b1a36b0c777",
     "packages": [
         {
             "name": "bcosca/fatfree",
@@ -127,6 +127,59 @@
                 "icon"
             ],
             "time": "2015-11-30 17:28:02"
+        },
+        {
+            "name": "raveren/kint",
+            "version": "dev-cli_detection_fix",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/plugowski/kint.git",
+                "reference": "b4f89e42f1f2dcd02e873f50668c37225c7e606c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/plugowski/kint/zipball/b4f89e42f1f2dcd02e873f50668c37225c7e606c",
+                "reference": "b4f89e42f1f2dcd02e873f50668c37225c7e606c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Kint.class.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rokas Šleinius",
+                    "homepage": "https://github.com/raveren"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/raveren/kint/contributors"
+                }
+            ],
+            "description": "Kint - debugging helper for PHP developers",
+            "homepage": "https://github.com/raveren/kint",
+            "keywords": [
+                "debug",
+                "kint",
+                "php"
+            ],
+            "support": {
+                "source": "https://github.com/plugowski/kint/tree/cli_detection_fix"
+            },
+            "time": "2016-02-14 15:39:01"
         },
         {
             "name": "robintail/ace-builds",
@@ -1157,7 +1210,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "raveren/kint": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

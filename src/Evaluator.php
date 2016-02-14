@@ -37,6 +37,8 @@ class Evaluator
     public function evaluate($code)
     {
         $filename = Config::$tempDir . self::FILENAME;
+
+        $code = $this->insertBootstrap($code);
         $code = $this->insertBenchmarks($code);
 
         $fp = fopen($filename, 'w');
@@ -75,6 +77,28 @@ class Evaluator
 
         return $this->parseOutput($output);
 
+    }
+
+    /**
+     * @param $code
+     * @return string
+     */
+    private function insertBootstrap($code)
+    {
+        $bootstrapFile = Config::getBootstrapPath();
+        if (!strpos($code, $this->requireBootstrapString()) && !empty($bootstrapFile) && file_exists($bootstrapFile)) {
+            $code = str_replace('<?php', '<?php' . $this->requireBootstrapString(), $code);
+        }
+
+        return $code;
+    }
+
+    /**
+     * @return string
+     */
+    private function requireBootstrapString()
+    {
+        return ' require \'' . Config::getBootstrapPath() . '\'; ';
     }
 
     /**
@@ -133,6 +157,10 @@ class Evaluator
     {
         $file = file_get_contents(Config::$tempDir . self::FILENAME);
         $contents = explode(PHP_EOL, $file);
+
+        if (strpos($contents[0], $this->requireBootstrapString())) {
+            $contents[0] = str_replace($this->requireBootstrapString(), '', $contents[0]);
+        }
 
         if (preg_match(self::BENCHMARK_PATTERN, end($contents))) {
             array_pop($contents);

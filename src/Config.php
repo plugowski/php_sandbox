@@ -19,7 +19,7 @@ class Config
         'escapeshellcmd',
         'eval',
         'exec',
-        'fopen',
+//        'fopen',
         'fp',
         'fput',
         'ftp_connect',
@@ -34,7 +34,7 @@ class Config
         'ini_alter',
         'ini_get_all',
         'ini_restore',
-        'ini_set',
+//        'ini_set',
         'inject_code',
         'mysql_pconnect',
         'openlog',
@@ -85,4 +85,17 @@ class Config
      * @var string
      */
     public static $phpCommand = "php";
+
+    /**
+     * @var string
+     */
+    public static $bootstrapFile = '/../webroot/bootstrap.php';
+
+    /**
+     * @return string
+     */
+    public static function getBootstrapPath()
+    {
+        return realpath(__DIR__ . self::$bootstrapFile);
+    }
 }
