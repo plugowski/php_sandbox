@@ -10,7 +10,7 @@ return [
     /**
      * Dir where temporary file code.php will be created and executed
      */
-    'tmp_dir' => '/tmp/',
+    'tmp_dir' => '/tmp/php_sandbox/',
 
     /**
      * Pre-execute scripts
@@ -21,8 +21,8 @@ return [
      * Which benchmarks should be collect on end of script
      */
     'benchmarks' => [
-        'memory' => 'memory_get_usage()',
-        'memory_peak' => 'memory_get_peak_usage()'
+        'memory' => '(memory_get_usage() - $ev__memory[\'usage\'])',
+        'memory_peak' => '(memory_get_peak_usage() - $ev__memory[\'peak\'])'
     ],
 
     /**

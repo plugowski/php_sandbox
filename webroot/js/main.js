@@ -70,5 +70,17 @@ $(function(){
         scrollIntoView: "cursor"
     });
 
+    // PhpStor behavior - after comment jump to next line
+    editor.commands.addCommand({
+        name: "togglecomment",
+        bindKey: {win: "Ctrl-/", mac: "Command-/"},
+        exec: function(editor) {
+            editor.toggleCommentLines();
+            editor.navigateDown();
+        },
+        multiSelectAction: "forEachLine",
+        scrollIntoView: "selectionPart"
+    });
+
 
 });

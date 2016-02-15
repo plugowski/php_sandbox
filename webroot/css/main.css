@@ -53,6 +53,7 @@ html,body {
     padding: 6px 13px;
     border-radius: 4px 0 0 0;
     opacity: 0.85;
+    cursor: default;
 }
 
 .output.format {
@@ -67,5 +68,19 @@ html,body {
     position: absolute;
     width: 100%;
     height: calc(100vh - 52px);
+}
+
+#editor .ace_search {
+    color: #333;
+    max-width: 330px;
+}
+
+#editor .ace_search_form .ace_searchbtn {
+    width: 33px;
+}
+
+#editor .ace_search_options {
+    margin-top: 4px;
+    text-align: left;
 }
 

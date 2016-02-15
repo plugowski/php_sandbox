@@ -42,7 +42,13 @@ class Evaluator
      */
     public function evaluate($code)
     {
-        $filename = $this->config->read('tmp_dir') . self::FILENAME;
+        $dir = $this->config->read('tmp_dir');
+
+        if (!file_exists($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        $filename = $dir . self::FILENAME;
 
         $code = $this->insertBootstrap($code);
         $code = $this->insertBenchmarks($code);
