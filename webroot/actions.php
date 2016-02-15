@@ -1,33 +1,36 @@
 <?php
 require(__DIR__ . '/../vendor/autoload.php');
 
+use PhpRouter\Route;
+use PhpRouter\RouteCollection;
+use PhpRouter\Router;
+use PhpRouter\RouteRequest;
 use PhpSandbox\Evaluator\Config;
 use PhpSandbox\Evaluator\Evaluator;
 
-$f3 = \Base::instance();
-
 // load config file
 $config = new Config(__DIR__ . '/../src/config.php');
+$routing = new RouteCollection();
 
 /**
  * get last executed script from tmp file
  */
-$f3->route('GET /get_last [ajax]', function() use ($config) {
+$routing->attach(new Route('GET /get_last [ajax]', function() use ($config) {
 
     if (file_exists($config->read('tmp_dir') . '/code.php')) {
         echo (new Evaluator($config))->getLastCode();
     }
-});
+}));
 
 /**
  * execute code from post
  */
-$f3->route('POST /execute', function($f3) use ($config) {
+$routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
 
     /** @var \Base $f3 */
-    if ($f3->exists('POST.code')) {
+    if (isset($_POST['code'])) {
 
-        $code = $f3->get('POST.code');
+        $code = $_POST['code'];
         if (!preg_match('/^<\?php.*/', $code)) {
             $code = '<?php ' . $code;
         }
@@ -43,6 +46,6 @@ $f3->route('POST /execute', function($f3) use ($config) {
 
         echo json_encode(compact('result', 'benchmark'));
     }
-});
+}));
 
-$f3->run();
+(new Router(new RouteRequest(), $routing))->run();

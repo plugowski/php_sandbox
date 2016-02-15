@@ -4,40 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "38dc6deb891f3e62a8f7b80738a51c0b",
-    "content-hash": "10515ef4759f592129d60b1a36b0c777",
+    "hash": "0d031f3cd8d3a65a4a0bd7cb672d7643",
+    "content-hash": "b1f7640517041869ec30dc784320822e",
     "packages": [
-        {
-            "name": "bcosca/fatfree",
-            "version": "3.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bcosca/fatfree.git",
-                "reference": "943df693fa3b183f7fec6fb09f9c9f89413228e6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bcosca/fatfree/zipball/943df693fa3b183f7fec6fb09f9c9f89413228e6",
-                "reference": "943df693fa3b183f7fec6fb09f9c9f89413228e6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.6"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib/base.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0"
-            ],
-            "description": "A powerful yet easy-to-use PHP micro-framework designed to help you build dynamic and robust Web applications - fast!",
-            "homepage": "http://fatfreeframework.com/",
-            "time": "2015-12-31 17:20:37"
-        },
         {
             "name": "components/jquery",
             "version": "2.2.0",
@@ -127,6 +96,42 @@
                 "icon"
             ],
             "time": "2015-11-30 17:28:02"
+        },
+        {
+            "name": "plugowski/php_router",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/plugowski/php_router.git",
+                "reference": "e682cdf7e1a5a1aa6ba9533adcbb95f17714dd32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/plugowski/php_router/zipball/e682cdf7e1a5a1aa6ba9533adcbb95f17714dd32",
+                "reference": "e682cdf7e1a5a1aa6ba9533adcbb95f17714dd32",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpRouter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "New BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Paweł Ługowski",
+                    "email": "pawelugowski@gmail.com"
+                }
+            ],
+            "description": "Simple routing engine, which allows anonymous functions to execute code on route.",
+            "time": "2016-02-15 16:55:43"
         },
         {
             "name": "raveren/kint",
@@ -361,22 +366,24 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "4745ded9307786b730d7a60df5cb5a6c43cf95f7"
+                "reference": "3c91bdf81797d725b14cb62906f9a4ce44235972"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/4745ded9307786b730d7a60df5cb5a6c43cf95f7",
-                "reference": "4745ded9307786b730d7a60df5cb5a6c43cf95f7",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/3c91bdf81797d725b14cb62906f9a4ce44235972",
+                "reference": "3c91bdf81797d725b14cb62906f9a4ce44235972",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
+                "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "~2.0",
-                "sebastian/comparator": "~1.1"
+                "sebastian/comparator": "~1.1",
+                "sebastian/recursion-context": "~1.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "~2.0"
@@ -384,7 +391,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -417,7 +424,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2015-08-13 10:07:40"
+            "time": "2016-02-15 07:46:21"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1211,6 +1218,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "plugowski/php_router": 20,
         "raveren/kint": 20
     },
     "prefer-stable": false,

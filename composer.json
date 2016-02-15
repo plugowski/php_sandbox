@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "bcosca/fatfree": "*",
+        "plugowski/php_router": "dev-master",
         "raveren/kint": "dev-cli_detection_fix",
         "robintail/ace-builds": "*",
         "components/jquery": "2.2.*",
