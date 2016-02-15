@@ -1,16 +1,30 @@
 $(function(){
     $('[data-toggle="tooltip"]').tooltip();
 
+    var alloweRequest = true;
+    var $loader = $('.loader');
     var editor = ace.edit("editor");
     var PhpMode = ace.require("ace/mode/php").Mode;
     var postCode = function(editor) {
+
+        if (alloweRequest === false) {
+            // todo: zmienic na cos ladniejszego
+            alert('Please wait...');
+            return;
+        }
+
+        alloweRequest = false;
+        $loader.removeClass('hidden');
         $.post('/execute', {'code': editor.getSession().getValue()}, function(response){
             var json = $.parseJSON(response);
 
             $('.output').html(json.result);
-            $('#benchmark .memory').html(json.benchmark.memory);
-            $('#benchmark .memory_peak').html(json.benchmark.memory_peak);
-            $('#benchmark .time').html(json.benchmark.time);
+            $.each(json.benchmark, function(key, value) {
+                $('#benchmark .' + key).html(value);
+            });
+
+            alloweRequest = true;
+            $loader.addClass('hidden');
         });
     };
 

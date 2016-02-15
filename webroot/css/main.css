@@ -43,6 +43,16 @@ html,body {
     overflow: auto;
 }
 
+.preview .loader {
+    color: #fff;
+    font-size: 100px;
+    opacity: 0.5;
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    margin-top: -50px;
+}
+
 #benchmark {
     color: #ddd;
     position: absolute;
