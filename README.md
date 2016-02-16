@@ -4,7 +4,7 @@ Simple and usefull tool to execute custom php scripts. It allows to block specif
 
 ## Screenshot
 
-<img src="http://blog.lugowski.eu/wp-content/uploads/2016/02/php_sandbox.png" alt="PHP Sandbox" border="0" />
+<img src="http://blog.lugowski.eu/wp-content/uploads/2016/02/php_sandbox.png?v=1.1" alt="PHP Sandbox" border="0" />
 
 ## Installation
 
@@ -100,7 +100,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 To build that tool I used:
 
-- FatFree framework - http://fatfreeframework.com/
 - Kint - http://raveren.github.io/kint/
 - Ace Editor - https://ace.c9.io/
 - Bootstrap - https://getbootstrap.com/
