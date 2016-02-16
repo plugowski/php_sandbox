@@ -7,13 +7,26 @@ use PhpSandbox\Evaluator\Evaluator;
  */
 class EvaluatorTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var string
+     */
+    private $sampleCode = '<?php $i = 0; while ($i < 10) { echo ++$i; }';
 
     /**
      * @return Evaluator
      */
     private function getEvaluator()
     {
-        return new Evaluator(new Config(__DIR__ . '/../src/config.php'));
+        return new Evaluator($this->getConfig());
+    }
+
+    private function getConfig()
+    {
+        return (new Config(__DIR__ . '/../src/config.php'))
+        ->write('tmp_dir', '/tmp/sandbox_test/')
+        ->write('disable_functions', ['shell_exec']);
+
+        return $config;
     }
 
     /**
@@ -21,7 +34,8 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
      */
     private function clear()
     {
-        unlink((new Config(__DIR__ . '/../src/config.php'))->read('tmp_dir') . Evaluator::FILENAME);
+        unlink($this->getConfig()->read('tmp_dir') . Evaluator::FILENAME);
+        rmdir($this->getConfig()->read('tmp_dir'));
     }
 
     /**
@@ -30,10 +44,10 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
     public function shouldEvaluatePhpCode()
     {
         $evaluator = $this->getEvaluator();
-        $result = $evaluator->evaluate('<?php echo "blabla";');
+        $result = $evaluator->evaluate($this->sampleCode);
         $this->clear();
 
-        $this->assertEquals('blabla', $result);
+        $this->assertEquals('12345678910', $result);
     }
 
     /**
@@ -41,12 +55,10 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
      */
     public function shouldReturnLastInsertedCode()
     {
-        $code = '<?php echo "blabla";';
-
         $evaluator = $this->getEvaluator();
-        $evaluator->evaluate($code);
+        $evaluator->evaluate($this->sampleCode);
 
-        $this->assertEquals($code, $evaluator->getLastCode());
+        $this->assertEquals($this->sampleCode, $evaluator->getLastCode());
         $this->clear();
     }
 
@@ -56,7 +68,7 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
     public function shouldReturnBenchmarks()
     {
         $evaluator = $this->getEvaluator();
-        $evaluator->evaluate('<?php echo "blabla";');
+        $evaluator->evaluate($this->sampleCode);
         $this->clear();
 
         $this->assertTrue(is_numeric($evaluator->getMemoryPeak()));

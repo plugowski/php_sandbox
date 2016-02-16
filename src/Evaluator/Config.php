@@ -34,6 +34,19 @@ class Config
     }
 
     /**
+     * Add / Replace config key
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function write($key, $value)
+    {
+        $this->items[$key] = $value;
+        return $this;
+    }
+
+    /**
      * @param string $key
      * @return bool
      */

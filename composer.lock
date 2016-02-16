@@ -103,12 +103,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/plugowski/php_router.git",
-                "reference": "e682cdf7e1a5a1aa6ba9533adcbb95f17714dd32"
+                "reference": "64a23648901750deb7c3ebbb813f9b833270f2a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/plugowski/php_router/zipball/e682cdf7e1a5a1aa6ba9533adcbb95f17714dd32",
-                "reference": "e682cdf7e1a5a1aa6ba9533adcbb95f17714dd32",
+                "url": "https://api.github.com/repos/plugowski/php_router/zipball/64a23648901750deb7c3ebbb813f9b833270f2a9",
+                "reference": "64a23648901750deb7c3ebbb813f9b833270f2a9",
                 "shasum": ""
             },
             "require-dev": {
@@ -131,7 +131,7 @@
                 }
             ],
             "description": "Simple routing engine, which allows anonymous functions to execute code on route.",
-            "time": "2016-02-15 16:55:43"
+            "time": "2016-02-16 07:58:09"
         },
         {
             "name": "raveren/kint",
