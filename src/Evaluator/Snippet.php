@@ -97,6 +97,15 @@ class Snippet
         $fullName = $this->getSnippetsDir() . $params['filename'];
         if (file_exists($fullName) && is_writable($fullName)) {
             unlink($fullName);
+
+            $parts = explode('/', $fullName);
+            array_pop($parts);
+            $dir = implode('/', $parts);
+
+            // if dir is empty, remove it
+            if (count(scandir($dir)) == 2) {
+                rmdir($dir);
+            }
         }
         // todo: return status
     }
