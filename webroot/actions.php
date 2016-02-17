@@ -7,6 +7,7 @@ use PhpRouter\Router;
 use PhpRouter\RouteRequest;
 use PhpSandbox\Evaluator\Config;
 use PhpSandbox\Evaluator\Evaluator;
+use PhpSandbox\Evaluator\Snippet;
 
 // load config file
 $config = new Config(__DIR__ . '/../src/config.php');
@@ -27,7 +28,6 @@ $routing->attach(new Route('GET /get_last [ajax]', function() use ($config) {
  */
 $routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
 
-    /** @var \Base $f3 */
     if (isset($_POST['code'])) {
 
         $code = $_POST['code'];
@@ -47,5 +47,12 @@ $routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
         echo json_encode(compact('result', 'benchmark'));
     }
 }));
+
+$routing->attach(new Route('POST /save_snippet.json [ajax]', '\PhpSandbox\Evaluator\Snippet->save', [$config]));
+$routing->attach(new Route('GET  /get_snippets_list.json', function() use ($config) {
+    $snippets = (new Snippet($config))->getList();
+    echo json_encode($snippets);
+}));
+$routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php', '_pass' => true], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
 
 (new Router(new RouteRequest(), $routing))->run();

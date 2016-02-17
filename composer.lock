@@ -4,9 +4,77 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d031f3cd8d3a65a4a0bd7cb672d7643",
-    "content-hash": "b1f7640517041869ec30dc784320822e",
+    "hash": "bc1400b788a7e3b19c294ffd3b0e0865",
+    "content-hash": "bd09a339577b00d8cd9bc3f6fad0d6bc",
     "packages": [
+        {
+            "name": "components/bootstrap",
+            "version": "3.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/bootstrap.git",
+                "reference": "fb4923919c620b8b2aa8a11eda16b49b0a9e8a27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/bootstrap/zipball/fb4923919c620b8b2aa8a11eda16b49b0a9e8a27",
+                "reference": "fb4923919c620b8b2aa8a11eda16b49b0a9e8a27",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": "1.9.1 - 2"
+            },
+            "suggest": {
+                "components/bootstrap-default": "Provide a theme for Bootstrap as components/bootstrap only provides the CSS as file assets"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "js/bootstrap.js"
+                    ],
+                    "files": [
+                        "js/*.js",
+                        "css/*.css",
+                        "css/*.map",
+                        "fonts/*",
+                        "less/mixins/*.less",
+                        "less/*.less"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ]
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                },
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "http://getbootstrap.com",
+            "keywords": [
+                "css",
+                "framework",
+                "front-end",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
+            ],
+            "time": "2015-11-24 20:19:41"
+        },
         {
             "name": "components/jquery",
             "version": "2.2.0",
@@ -98,17 +166,55 @@
             "time": "2015-11-30 17:28:02"
         },
         {
+            "name": "makeusabrew/bootbox",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/makeusabrew/bootbox.git",
+                "reference": "b2671b39f33d0194474060928331742fcf75f776"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/makeusabrew/bootbox/zipball/b2671b39f33d0194474060928331742fcf75f776",
+                "reference": "b2671b39f33d0194474060928331742fcf75f776",
+                "shasum": ""
+            },
+            "require": {
+                "components/bootstrap": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "bootbox.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nick Payne",
+                    "email": "nick@kurai.co.uk"
+                }
+            ],
+            "description": "Wrappers for JavaScript alert(), confirm() and other flexible dialogs using the Bootstrap framework",
+            "time": "2015-10-04 19:15:05"
+        },
+        {
             "name": "plugowski/php_router",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/plugowski/php_router.git",
-                "reference": "64a23648901750deb7c3ebbb813f9b833270f2a9"
+                "reference": "90cfa4f3cb2c837fe90e9510deafce498f77695a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/plugowski/php_router/zipball/64a23648901750deb7c3ebbb813f9b833270f2a9",
-                "reference": "64a23648901750deb7c3ebbb813f9b833270f2a9",
+                "url": "https://api.github.com/repos/plugowski/php_router/zipball/90cfa4f3cb2c837fe90e9510deafce498f77695a",
+                "reference": "90cfa4f3cb2c837fe90e9510deafce498f77695a",
                 "shasum": ""
             },
             "require-dev": {
@@ -131,7 +237,7 @@
                 }
             ],
             "description": "Simple routing engine, which allows anonymous functions to execute code on route.",
-            "time": "2016-02-16 07:58:09"
+            "time": "2016-02-16 15:03:54"
         },
         {
             "name": "raveren/kint",
@@ -207,57 +313,6 @@
             ],
             "description": "Fork of ajaxorg/ace-builds",
             "time": "2015-11-20 07:19:26"
-        },
-        {
-            "name": "twbs/bootstrap",
-            "version": "v3.3.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "81df608a40bf0629a1dc08e584849bb1e43e0b7a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/81df608a40bf0629a1dc08e584849bb1e43e0b7a",
-                "reference": "81df608a40bf0629a1dc08e584849bb1e43e0b7a",
-                "shasum": ""
-            },
-            "replace": {
-                "twitter/bootstrap": "self.version"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jacob Thornton",
-                    "email": "jacobthornton@gmail.com"
-                },
-                {
-                    "name": "Mark Otto",
-                    "email": "markdotto@gmail.com"
-                }
-            ],
-            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
-            "homepage": "http://getbootstrap.com",
-            "keywords": [
-                "JS",
-                "css",
-                "framework",
-                "front-end",
-                "less",
-                "mobile-first",
-                "responsive",
-                "web"
-            ],
-            "time": "2015-11-24 19:37:05"
         }
     ],
     "packages-dev": [
@@ -1219,7 +1274,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "plugowski/php_router": 20,
-        "raveren/kint": 20
+        "raveren/kint": 20,
+        "makeusabrew/bootbox": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

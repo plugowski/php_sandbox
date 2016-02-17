@@ -1,6 +1,7 @@
 html,body {
     height:100%;
-    background-color: #333;
+    background-color: #3D3D3D !important;
+    color: #000 !important;
 }
 
 .navbar {
@@ -10,6 +11,10 @@ html,body {
 
 .navbar-brand small {
     font-size: 11px;
+}
+
+.navbar .dropdown-menu {
+    min-width: 250px;
 }
 
 .actions {
@@ -26,6 +31,58 @@ html,body {
 
 .row {
     margin-right: 0;
+}
+
+.snippets_panel {
+    color: #eee;
+    overflow-y: auto;
+    padding-right: 0;
+}
+
+.snippets {
+    padding: 15px 0 15px 15px;
+    font-size: 13px;
+    font-weight: 200;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.snippets li {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.snippets a,
+.snippets a:hover,
+.snippets a:active,
+.snippets a:visited {
+    color: #eee;
+}
+
+.snippets ul {
+    list-style: none;
+    padding: 0;
+}
+
+.snippets ul li {
+    list-style: none;
+    margin-left: 14px;
+}
+
+.snippets li.file::before,
+.snippets li.folder::before {
+    font-family: FontAwesome;
+}
+
+.snippets li.file::before {
+    /*content: "\f15b\00a0";*/
+    content: "\f15c\00a0";
+}
+
+.snippets li.folder::before {
+    color: #ffa900;
+    content: "\f07b\00a0";
 }
 
 .preview {

@@ -15,9 +15,11 @@
 
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/bootbox.js" type="text/javascript"></script>
     <script src="js/ace/ace.js" type="text/javascript"></script>
     <script src="js/ace/theme-ambiance.js" type="text/javascript"></script>
     <script src="js/ace/mode-php.js" type="text/javascript"></script>
+    <script src="js/mousetrap.min.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
 
 </head>
@@ -30,6 +32,13 @@
     </div>
 
     <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#" id="saveSnippet">Save snippet <span class="pull-right kbd" data-macos="⇧⌘S">Ctrl+Shift+S</span></a></li>
+                <li><a href="#" id="loadSnippet">Snippets list <span class="pull-right kbd" data-macos="⇧⌘L">Cmd+Shift+L</span></a></li>
+            </ul>
+        </li>
         <li><a href="#" class="reload"><i class="fa fa-refresh"></i> Load last</a></li>
     </ul>
 
@@ -45,6 +54,11 @@
 
 </nav>
 <div class="row">
+    <div class="col-xs-2 snippets_panel hidden">
+        <div class="snippets">
+            <i class="fa fa-folder"></i> Snippets
+        </div>
+    </div>
     <div class="col-xs-6">
         <div id="editor"></div>
     </div>

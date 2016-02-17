@@ -1,12 +1,11 @@
 /vendor/
 
 # composer loaded files
-/webroot/js/ace/
-/webroot/js/bootstrap*
-/webroot/js/jquery*
-/webroot/js/npm*
+/webroot/js/*
+!/webroot/js/main.js
+!/webroot/js/mousetrap.min.js
 
-/webroot/css/bootstrap*
-/webroot/css/font*
+/webroot/css/*
+!/webroot/css/main.css
 
 /webroot/fonts/

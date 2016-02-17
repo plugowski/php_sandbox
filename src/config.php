@@ -13,6 +13,11 @@ return [
     'tmp_dir' => '/tmp/php_sandbox/',
 
     /**
+     * Dir where all snippets will be stored
+     */
+    'snippets_dir' => '/tmp/php_sandbox/snippets/',
+
+    /**
      * Pre-execute scripts
      */
     'bootstrap_file' => realpath(__DIR__ . '/bootstrap.php'),
