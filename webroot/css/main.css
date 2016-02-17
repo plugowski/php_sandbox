@@ -39,6 +39,10 @@ html,body {
     padding-right: 0;
 }
 
+.snippets-reload {
+    cursor: pointer;
+}
+
 .snippets {
     padding: 15px 0 15px 15px;
     font-size: 13px;
@@ -48,8 +52,12 @@ html,body {
     text-overflow: ellipsis;
 }
 
-.snippets li {
+.snippets {
+    padding: 15px 0 15px 15px;
+    font-size: 13px;
+    font-weight: 200;
     overflow-x: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
@@ -63,12 +71,29 @@ html,body {
 .snippets ul {
     list-style: none;
     padding: 0;
-}
-
-.snippets ul li {
-    list-style: none;
     margin-left: 14px;
 }
+
+.snippets li {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    list-style: none;
+}
+
+/*
+.snippets li span:after {
+    content: "";
+    position: absolute;
+    display: block;
+    left: 0; right: 0;
+    height: 1.3em;
+    z-index: -1;
+}
+
+.snippets li span:hover:after {
+    background-color: #ffd300 !important;
+}
+*/
 
 .snippets li.file::before,
 .snippets li.folder::before {
@@ -76,13 +101,16 @@ html,body {
 }
 
 .snippets li.file::before {
-    /*content: "\f15b\00a0";*/
     content: "\f15c\00a0";
 }
 
 .snippets li.folder::before {
     color: #ffa900;
     content: "\f07b\00a0";
+}
+
+.snippets .fa-trash-o {
+    cursor: pointer;
 }
 
 .preview {

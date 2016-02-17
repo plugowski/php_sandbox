@@ -44,6 +44,9 @@ class Snippet
 
     }
 
+    /**
+     * Save posted code into snippet
+     */
     public function save()
     {
         $name = explode('/', $_POST['name']);
@@ -64,10 +67,14 @@ class Snippet
         fwrite($fh, $_POST['code']);
         fclose($fh);
 
-        // todo: komunikat do przegladarki
-
+        // todo: return status
     }
 
+    /**
+     * Return snippet content
+     *
+     * @param array $params
+     */
     public function load($params)
     {
         $fullName = $this->getSnippetsDir() . $params['filename'];
@@ -82,11 +89,16 @@ class Snippet
     /**
      * Delete snippet
      *
+     * @param array $params
      * @return bool
      */
-    public function delete()
+    public function delete($params)
     {
-
+        $fullName = $this->getSnippetsDir() . $params['filename'];
+        if (file_exists($fullName) && is_writable($fullName)) {
+            unlink($fullName);
+        }
+        // todo: return status
     }
 
     /**
@@ -109,7 +121,6 @@ class Snippet
     private function prepareArrayToJson($files)
     {
         $tmp = [];
-
         foreach ($files as $k => $value) {
 
             $name = $value;
@@ -124,7 +135,6 @@ class Snippet
 
             $tmp[] = ['name' => $name, 'type' => $type, 'data' => $data];
         }
-
         return $tmp;
     }
 
@@ -150,7 +160,7 @@ class Snippet
                 $tmp[] = $file;
             }
         }
-        asort($tmp);
+        ksort($tmp);
         return $tmp;
     }
 }

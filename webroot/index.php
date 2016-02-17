@@ -54,12 +54,13 @@
 
 </nav>
 <div class="row">
-    <div class="col-xs-2 snippets_panel hidden">
-        <div class="snippets">
-            <i class="fa fa-folder"></i> Snippets
-        </div>
+    <div class="col-xs-1 snippets_panel hidden">
+        <ul class="snippets">
+            <li class="folder main">Snippets (<span class="snippets-reload">refresh</span>)
+            </li>
+        </ul>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-6 editor_area">
         <div id="editor"></div>
     </div>
     <div class="col-xs-6 preview">

@@ -49,10 +49,13 @@ $routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
 }));
 
 $routing->attach(new Route('POST /save_snippet.json [ajax]', '\PhpSandbox\Evaluator\Snippet->save', [$config]));
+
 $routing->attach(new Route('GET  /get_snippets_list.json', function() use ($config) {
     $snippets = (new Snippet($config))->getList();
     echo json_encode($snippets);
 }));
-$routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php', '_pass' => true], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
+
+$routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
+$routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->delete', [$config]));
 
 (new Router(new RouteRequest(), $routing))->run();

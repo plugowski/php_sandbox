@@ -39,6 +39,17 @@ $(function(){
         });
     };
 
+    var loadSnippetsList = function() {
+
+        $('.snippets ul').not('.main').remove();
+
+        $.getJSON('/get_snippets_list.json', function(response){
+            var $ul =  $('<ul/>');
+            $('.snippets .folder').append($ul);
+            buildTree(response, '/', $ul);
+        });
+    };
+
     var saveSnippet = function(code) {
         bootbox.prompt("Enter name for new snippet:", function(result) {
             if (result !== null) {
@@ -47,20 +58,47 @@ $(function(){
                 // todo: walidacja nazwy (alfanueric)
 
                 $.post('/save_snippet.json', {name: result, code: code}, function(response){
-
                     // todo: komunikat odpowiedzi
                     $loader.addClass('hidden');
+                    setTimeout(loadSnippetsList(), 1000);
                 });
             }
-
             editor.focus();
+        });
+    };
+
+    var deleteSnippet = function(filename) {
+        bootbox.dialog({
+            title: "Confirm file deletion",
+            message: "Are you sure to delete file: " + filename,
+            buttons: {
+                main: {
+                    label: "Cancel",
+                    callback: function(){
+                        editor.focus();
+                    }
+                },
+                danger: {
+                    label: "Delete",
+                    className: "btn-danger",
+                    callback: function(){
+                        $loader.removeClass('hidden');
+
+                        $.post('/delete_snippet/' + filename, {_method: 'DELETE'}, function(response){
+                            // todo: komunikat odpowiedzi
+                            $loader.addClass('hidden');
+                            setTimeout(loadSnippetsList(), 1000);
+                        });
+                    }
+                }
+            }
         });
     };
 
     var bindLoadSnippet = function() {
         $('.snippets .file a').unbind().click(function(e){
             e.preventDefault();
-            $.getJSON('/get_snippet' + $(this).data('file'), function(response){
+            $.getJSON('/get_snippet' + $(this).closest('span').data('file'), function(response){
                 editor.setValue(response.code, 1);
                 editor.focus();
             })
@@ -68,12 +106,12 @@ $(function(){
     };
 
     var toggleSnippetList = function() {
-        var $snippetLis = $('.col-xs-2');
-        var $columns = $('.col-xs-6');
+        var $snippetLis = $('.snippets_panel');
+        var $columns = $('.editor_area, .preview');
 
         if ($snippetLis.hasClass('hidden')) {
-            $columns.css({width: "41.66666667%"});
-            $snippetLis.css({width: 0}).removeClass('hidden').animate({width: "16.66666667%"});
+            $columns.css({width: "44.33333334%"});
+            $snippetLis.css({width: 0}).removeClass('hidden').animate({width: "11.333333%"});
         } else {
             $snippetLis.animate({width: 0}, function(){
                 $columns.css({width: "50%"});
@@ -84,12 +122,6 @@ $(function(){
         //editor.resize();
     };
 
-    $.getJSON('/get_snippets_list.json', function(response){
-        var $ul =  $('<ul/>');
-        $('.snippets').append($ul);
-        buildTree(response, '/', $ul);
-    });
-
     // build snippets tree in navigator
     var buildTree = function(data, reference, container){
 
@@ -97,14 +129,18 @@ $(function(){
 
             var $ul = $('<ul/>');
             var $li = $('<li/>');
+            var $span = $('<span/>');
             var $link = $('<a href="#"/>');
+            var $delete = $('<i class="fa fa-trash-o pull-right" />');
             var record = item.name;
 
             if (item.type == 'file') {
-                record = $link.attr('data-file', reference + item.name).append(item.name)
+                $span.attr('data-file', reference + item.name).append($delete);
+                $delete.click(function(){ deleteSnippet(reference + item.name); });
+                record = $link.append(item.name);
             }
 
-            var el = $li.addClass(item.type).append(record);
+            var el = $li.addClass(item.type).append($span.append(record));
 
             if (item.type == 'folder') {
                 el.append($ul);
@@ -148,6 +184,11 @@ $(function(){
     $('#loadSnippet').click(function(e){
         e.preventDefault();
         toggleSnippetList();
+    });
+
+    $('.snippets-reload').click(function(e){
+        e.preventDefault();
+        loadSnippetsList();
     });
 
     // EDITOR SETTINGS
@@ -226,4 +267,6 @@ $(function(){
     Mousetrap.bind(["ctrl+shift+l", "command+shift+l"], function(){
         toggleSnippetList();
     });
+
+    loadSnippetsList();
 });
