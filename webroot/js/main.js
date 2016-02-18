@@ -51,6 +51,11 @@ $(function(){
     };
 
     var saveSnippet = function(code) {
+        var $alert = $('<div class="alert" role="alert">' +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+            '<span class="message" />' +
+        '</div>');
+
         bootbox.prompt("Enter name for new snippet:", function(result) {
             if (result !== null) {
                 $loader.removeClass('hidden');
@@ -58,7 +63,13 @@ $(function(){
                 // todo: walidacja nazwy (alfanueric)
 
                 $.post('/save_snippet.json', {name: result, code: code}, function(response){
-                    // todo: komunikat odpowiedzi
+
+                    response = JSON.parse(response);
+                    if (response.status == 'error') {
+                        $alert.addClass('alert-warning').find('.message').html('<strong>Can\'t save file!</strong> ' + response.message);
+                        $('#alerts').append($alert);
+                    }
+
                     $loader.addClass('hidden');
                     setTimeout(loadSnippetsList(), 1000);
                 });

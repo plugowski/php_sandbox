@@ -17,6 +17,17 @@ html,body {
     min-width: 250px;
 }
 
+#alerts {
+    position: absolute;
+    z-index: 999;
+    padding: 0;
+    width: 100%
+}
+
+#alerts .alert {
+    border-radius: 0;
+}
+
 .actions {
     position: absolute;
     top: 7px;

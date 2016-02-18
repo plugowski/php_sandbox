@@ -39,35 +39,46 @@ class Snippet
         return $dir;
     }
 
-    private function validateName()
+    /**
+     * Validate name of created snippet
+     *
+     * @param string $name
+     * @throws SnippetException
+     */
+    private function validateName($name)
     {
-
+        if (substr_count($name, '/') > 1) {
+            throw new SnippetException("Only one level of folders are allowed.", SnippetException::MAX_NESTING);
+        }
+        if (!preg_match('/^(\w+\/)?[\w\.]+$/', $name)) {
+            throw new SnippetException("Name contains not allowed characters!", SnippetException::WRONG_NAME);
+        }
+        if (false === strpos($name, '.php')) {
+            throw new SnippetException("Extension is required and should be *.php", SnippetException::MISSING_EXTENSION);
+        }
     }
 
     /**
      * Save posted code into snippet
+     *
+     * @param string $name
+     * @param string $code
+     * @return bool
      */
-    public function save()
+    public function save($name, $code)
     {
-        $name = explode('/', $_POST['name']);
-        $counter = count($name);
+        $this->validateName($name);
 
-        if ($counter > 2) {
-            echo 'maksymalnie jedno zagniezdzenie!';
-            die;
-        } else if ($counter == 2) {
-            $dir = $this->getSnippetsDir($name[0]) . DIRECTORY_SEPARATOR;
-            $filename = $name[1];
-        } else {
-            $dir = $this->getSnippetsDir() . DIRECTORY_SEPARATOR;
-            $filename = $name[0];
+        $dir = null;
+        if (false !== strpos($name, '/')) {
+            list($dir, $name) = explode('/', $name);
         }
 
-        $fh = fopen($dir . $filename, 'w+');
-        fwrite($fh, $_POST['code']);
+        $fh = fopen($this->getSnippetsDir($dir) . DIRECTORY_SEPARATOR . $name, 'w+');
+        fwrite($fh, $code);
         fclose($fh);
 
-        // todo: return status
+        return true;
     }
 
     /**
@@ -90,24 +101,32 @@ class Snippet
      * Delete snippet
      *
      * @param array $params
+     * @throws SnippetException
      * @return bool
      */
     public function delete($params)
     {
         $fullName = $this->getSnippetsDir() . $params['filename'];
-        if (file_exists($fullName) && is_writable($fullName)) {
-            unlink($fullName);
 
-            $parts = explode('/', $fullName);
-            array_pop($parts);
-            $dir = implode('/', $parts);
-
-            // if dir is empty, remove it
-            if (count(scandir($dir)) == 2) {
-                rmdir($dir);
-            }
+        if (!file_exists($fullName)) {
+            throw new SnippetException("File does not exists!", SnippetException::FILE_NOT_EXISTS);
         }
-        // todo: return status
+        if (!is_writable($fullName)) {
+            throw new SnippetException("No permission to modify file!", SnippetException::NO_PERMISSION);
+        }
+
+        unlink($fullName);
+
+        $parts = explode('/', $fullName);
+        array_pop($parts);
+        $dir = implode('/', $parts);
+
+        // if dir is empty, remove it
+        if (count(scandir($dir)) == 2) {
+            rmdir($dir);
+        }
+
+        return true;
     }
 
     /**

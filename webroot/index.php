@@ -53,6 +53,9 @@
     </div>
 
 </nav>
+
+<div id="alerts"></div>
+
 <div class="row">
     <div class="col-xs-1 snippets_panel hidden">
         <ul class="snippets">
