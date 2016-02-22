@@ -1,6 +1,7 @@
 <?php
 require(__DIR__ . '/../vendor/autoload.php');
 
+use PhpRouter\Exception\RouteNotFoundException;
 use PhpRouter\Route;
 use PhpRouter\RouteCollection;
 use PhpRouter\Router;
@@ -75,4 +76,15 @@ $routing->attach(new Route('GET  /get_snippets_list.json', function() use ($conf
 $routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
 $routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->delete', [$config]));
 
-(new Router(new RouteRequest(), $routing))->run();
+try {
+    $request = new RouteRequest();
+    (new Router($request, $routing))->run();
+} catch (RouteNotFoundException $e) {
+
+    header("HTTP/1.0 404 Not Found");
+    if (true === $request->isAjax()) {
+        echo json_encode(['error' => 'Not Found']);
+    } else {
+        echo "<h1>404. Not Found.</h1>";
+    }
+}
