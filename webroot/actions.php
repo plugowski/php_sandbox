@@ -8,6 +8,8 @@ use PhpRouter\Router;
 use PhpRouter\RouteRequest;
 use PhpSandbox\Evaluator\Config;
 use PhpSandbox\Evaluator\Evaluator;
+use PhpSandbox\Evaluator\Snippet;
+use PhpSandbox\Evaluator\SnippetException;
 
 // load config file
 $config = new Config(__DIR__ . '/../src/config.php');
@@ -50,6 +52,32 @@ $routing->attach(new Route('POST /execute/@phpversion.json [ajax]', ['phpversion
         echo json_encode(compact('result', 'benchmark'));
     }
 }));
+
+/**
+ * Validate and save new snippet
+ */
+$routing->attach(new Route('POST /save_snippet.json [ajax]', function() use ($config){
+
+    if (!empty($_POST['name']) && !empty($_POST['code'])) {
+        try {
+            (new Snippet($config))->save($_POST['name'], $_POST['code']);
+            echo json_encode(['status' => 'success']);
+        } catch (SnippetException $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+}));
+
+/**
+ * Get snippets list
+ */
+$routing->attach(new Route('GET  /get_snippets_list.json', function() use ($config) {
+    $snippets = (new Snippet($config))->getList();
+    echo json_encode($snippets);
+}));
+
+$routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
+$routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->delete', [$config]));
 
 /**
  * Get snippets list

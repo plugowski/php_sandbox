@@ -8,7 +8,15 @@ Simple and usefull tool to execute custom php scripts. It allows to block specif
 
 ## Installation
 
-Clone that repository wherever you want (in my example `/www/php_sandbox`), then in base dir run:
+Clone that repository wherever you want (in my example `/www/php_sandbox`)
+
+```
+$ cd /www
+$ git clone git@github.com:plugowski/php_sandbox.git 
+```
+
+and load all dependencies:
+
 
 ```
 composer update --no-dev
@@ -57,6 +65,13 @@ Ctrl-S | Command-S | Execute code
 
 ## Changelog
 
+- 1.2
+  - fixed counting of memory used by script (now it is counting only for evaluated script without extra stuff from bootstrap)
+  - added new PhpStorm shortcut
+  - changed routing from FatFree to my own (FatFree fired couple ini_sets which might conflict with security settings, where  
+  ini_set() function will be disabled)
+  - added snippets, which you can save and load in any time
+  - added possibility to switch between couple of php versions
 - 1.1
   - added Kint debug tool for dumping varialbles
   - refactored Config class
