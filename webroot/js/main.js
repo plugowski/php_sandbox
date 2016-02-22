@@ -1,5 +1,6 @@
 $(function(){
     $('[data-toggle="tooltip"]').tooltip();
+    $('#php-version').selectpicker('hide');
 
     var alloweRequest = true;
     var $loader = $('.loader');
@@ -8,14 +9,27 @@ $(function(){
     var postCode = function(editor) {
 
         if (alloweRequest === false) {
-            // todo: zmienic na cos ladniejszego
-            alert('Please wait...');
+            bootbox.dialog({
+                title: "Script is running",
+                message: "Please wait until previous request finished!",
+                buttons: {
+                    main: {
+                        label: "OK",
+                        callback: function(){
+                            editor.focus();
+                        }
+                    }
+                }
+            });
             return;
         }
 
         alloweRequest = false;
         $loader.removeClass('hidden');
-        $.post('/execute', {'code': editor.getSession().getValue()}, function(response){
+
+        var php = $('#php-version').val();
+
+        $.post('/execute/' + php + '.json', {'code': editor.getValue()}, function(response){
             var json = $.parseJSON(response);
 
             $('.output').html(json.result);
@@ -28,10 +42,27 @@ $(function(){
         });
     };
 
+    var loadPhpVersions = function() {
+
+        $.getJSON('/get_php_versions.json', function(response){
+
+            if (response.versions.length > 0) {
+
+                $.each(response.versions, function(i, item) {
+                    $('#php-version').append($('<option>').attr('value', item).html('PHP ' + item));
+                });
+
+                $('#php-version').selectpicker('refresh').selectpicker('show');
+            }
+        });
+    };
+
+    // ACTIONS
     $('.reload').click(function(e){
         e.preventDefault();
         $.get('/get_last', function(response){
-            editor.setValue(response);
+            editor.setValue(response, 1);
+            editor.focus();
         })
     });
 
@@ -48,6 +79,7 @@ $(function(){
     editor.session.setMode(new PhpMode());
     editor.getSession().setUseWrapMode(true);
     editor.setShowPrintMargin(false);
+    editor.focus();
 
 
     // PhpStorm key bindings
@@ -96,5 +128,6 @@ $(function(){
         scrollIntoView: "selectionPart"
     });
 
+    loadPhpVersions();
 
 });

@@ -18,7 +18,8 @@
         "raveren/kint": "dev-cli_detection_fix",
         "robintail/ace-builds": "*",
         "components/jquery": "2.2.*",
-        "twbs/bootstrap": "3.*",
+        "makeusabrew/bootbox": "dev-master",
+        "bootstrap-select/bootstrap-select": "1.9.4",
         "fortawesome/font-awesome": "4.*",
         "php": ">=5.3.6"
     },
@@ -32,12 +33,16 @@
     },
     "scripts": {
         "post-update-cmd": [
-            "cp -R vendor/twbs/bootstrap/dist/ webroot/",
+            "cp -R vendor/components/bootstrap/css/ webroot/css/",
+            "cp -R vendor/components/bootstrap/js/ webroot/js/",
+            "cp -R vendor/components/bootstrap/fonts/ webroot/fonts/",
+            "cp -R vendor/makeusabrew/bootbox/bootbox.js webroot/js/",
             "mkdir -p webroot/js/ace",
             "cp vendor/components/jquery/jquery.min.js webroot/js/",
             "cp -R vendor/robintail/ace-builds/src/ webroot/js/ace/",
             "cp -R vendor/fortawesome/font-awesome/css/ webroot/css/",
-            "cp -R vendor/fortawesome/font-awesome/fonts/ webroot/fonts/"
+            "cp -R vendor/fortawesome/font-awesome/fonts/ webroot/fonts/",
+            "cp -R vendor/bootstrap-select/bootstrap-select/dist/ webroot/"
         ]
     }
 }
