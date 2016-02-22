@@ -1,6 +1,7 @@
 <?php
 require(__DIR__ . '/../vendor/autoload.php');
 
+use PhpRouter\Exception\RouteNotFoundException;
 use PhpRouter\Route;
 use PhpRouter\RouteCollection;
 use PhpRouter\Router;
@@ -25,9 +26,8 @@ $routing->attach(new Route('GET /get_last [ajax]', function() use ($config) {
 /**
  * execute code from post
  */
-$routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
+$routing->attach(new Route('POST /execute/@phpversion.json [ajax]', ['phpversion' => 'null|[\d\.]+'], function($params) use ($config) {
 
-    /** @var \Base $f3 */
     if (isset($_POST['code'])) {
 
         $code = $_POST['code'];
@@ -35,7 +35,10 @@ $routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
             $code = '<?php ' . $code;
         }
 
+        $version = !empty($params['phpversion']) ? $params['phpversion'] : null;
+
         $evaluator = new Evaluator($config);
+        $evaluator->setPHP($version);
         $result = $evaluator->evaluate($code);
 
         $benchmark = [
@@ -48,4 +51,24 @@ $routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
     }
 }));
 
-(new Router(new RouteRequest(), $routing))->run();
+/**
+ * Get snippets list
+ */
+$routing->attach(new Route('GET  /get_php_versions.json [ajax]', function() use ($config) {
+    $phpPaths = $config->read('php_commands');
+    $versions = empty($phpPaths) ? [] : array_keys($phpPaths);
+    echo json_encode(compact('versions'));
+}));
+
+try {
+    $request = new RouteRequest();
+    (new Router($request, $routing))->run();
+} catch (RouteNotFoundException $e) {
+
+    header("HTTP/1.0 404 Not Found");
+    if (true === $request->isAjax()) {
+        echo json_encode(['error' => 'Not Found']);
+    } else {
+        echo "<h1>404. Not Found.</h1>";
+    }
+}

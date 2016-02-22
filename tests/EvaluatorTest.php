@@ -20,13 +20,14 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
         return new Evaluator($this->getConfig());
     }
 
+    /**
+     * @return Config
+     */
     private function getConfig()
     {
         return (new Config(__DIR__ . '/../src/config.php'))
         ->write('tmp_dir', '/tmp/sandbox_test/')
         ->write('disable_functions', ['shell_exec']);
-
-        return $config;
     }
 
     /**
