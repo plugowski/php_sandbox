@@ -19,6 +19,7 @@
         "robintail/ace-builds": "*",
         "components/jquery": "2.2.*",
         "makeusabrew/bootbox": "dev-master",
+        "bootstrap-select/bootstrap-select": "1.9.4",
         "fortawesome/font-awesome": "4.*",
         "php": ">=5.3.6"
     },
@@ -40,7 +41,8 @@
             "cp vendor/components/jquery/jquery.min.js webroot/js/",
             "cp -R vendor/robintail/ace-builds/src/ webroot/js/ace/",
             "cp -R vendor/fortawesome/font-awesome/css/ webroot/css/",
-            "cp -R vendor/fortawesome/font-awesome/fonts/ webroot/fonts/"
+            "cp -R vendor/fortawesome/font-awesome/fonts/ webroot/fonts/",
+            "cp -R vendor/bootstrap-select/bootstrap-select/dist/ webroot/"
         ]
     }
 }

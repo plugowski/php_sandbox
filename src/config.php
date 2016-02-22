@@ -8,6 +8,17 @@ return [
     'php_command' => 'php',
 
     /**
+     * destinations for different php versions, uncomment or modify paths that match to your environment
+     */
+    'php_commands' => [
+//        '5.3' => '/opt/local/bin/php53',
+//        '5.4' => '/opt/local/bin/php54',
+//        '5.5' => '/opt/local/bin/php55',
+//        '5.6' => '/opt/local/bin/php56',
+//        '7.0' => '/opt/local/bin/php70'
+    ],
+
+    /**
      * Dir where temporary file code.php will be created and executed
      */
     'tmp_dir' => '/tmp/php_sandbox/',

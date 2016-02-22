@@ -28,7 +28,7 @@ $routing->attach(new Route('GET /get_last [ajax]', function() use ($config) {
 /**
  * execute code from post
  */
-$routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
+$routing->attach(new Route('POST /execute/@phpversion.json [ajax]', ['phpversion' => 'null|[\d\.]+'], function($params) use ($config) {
 
     if (isset($_POST['code'])) {
 
@@ -37,7 +37,10 @@ $routing->attach(new Route('POST /execute [ajax]', function() use ($config) {
             $code = '<?php ' . $code;
         }
 
+        $version = !empty($params['phpversion']) ? $params['phpversion'] : null;
+
         $evaluator = new Evaluator($config);
+        $evaluator->setPHP($version);
         $result = $evaluator->evaluate($code);
 
         $benchmark = [
@@ -75,6 +78,15 @@ $routing->attach(new Route('GET  /get_snippets_list.json', function() use ($conf
 
 $routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
 $routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->delete', [$config]));
+
+/**
+ * Get snippets list
+ */
+$routing->attach(new Route('GET  /get_php_versions.json [ajax]', function() use ($config) {
+    $phpPaths = $config->read('php_commands');
+    $versions = empty($phpPaths) ? [] : array_keys($phpPaths);
+    echo json_encode(compact('versions'));
+}));
 
 try {
     $request = new RouteRequest();

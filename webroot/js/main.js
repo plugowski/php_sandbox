@@ -1,5 +1,6 @@
 $(function(){
     $('[data-toggle="tooltip"]').tooltip();
+    $('#php-version').selectpicker('hide');
 
     var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
     var alloweRequest = true;
@@ -26,7 +27,10 @@ $(function(){
 
         alloweRequest = false;
         $loader.removeClass('hidden');
-        $.post('/execute', {'code': editor.getValue()}, function(response){
+
+        var php = $('#php-version').val();
+
+        $.post('/execute/' + php + '.json', {'code': editor.getValue()}, function(response){
             var json = $.parseJSON(response);
 
             $('.output').html(json.result);
@@ -36,6 +40,21 @@ $(function(){
 
             alloweRequest = true;
             $loader.addClass('hidden');
+        });
+    };
+
+    var loadPhpVersions = function() {
+
+        $.getJSON('/get_php_versions.json', function(response){
+
+            if (response.versions.length > 0) {
+
+                $.each(response.versions, function(i, item) {
+                    $('#php-version').append($('<option>').attr('value', item).html('PHP ' + item));
+                });
+
+                $('#php-version').selectpicker('refresh').selectpicker('show');
+            }
         });
     };
 
@@ -279,5 +298,6 @@ $(function(){
         toggleSnippetList();
     });
 
+    loadPhpVersions();
     loadSnippetsList();
 });

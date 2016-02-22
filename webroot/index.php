@@ -10,11 +10,13 @@
     <title>PHP Sandbox</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
 
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap-select.min.js" type="text/javascript"></script>
     <script src="js/bootbox.js" type="text/javascript"></script>
     <script src="js/ace/ace.js" type="text/javascript"></script>
     <script src="js/ace/theme-ambiance.js" type="text/javascript"></script>
@@ -48,6 +50,8 @@
         </span>
 
         &nbsp;
+
+        <select id="php-version" name="php-version" class="selectpicker" data-width="fit" data-style="btn-success"></select>
 
         <a href="#" class="btn btn-primary evaluate"><i class="fa fa-play"></i> Evaluate</a>
     </div>

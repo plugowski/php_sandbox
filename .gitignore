@@ -3,7 +3,7 @@
 # composer loaded files
 /webroot/js/*
 !/webroot/js/main.js
-!/webroot/js/mousetrap.min.js
+!/webroot/js/jquery.liveFilter.js
 
 /webroot/css/*
 !/webroot/css/main.css

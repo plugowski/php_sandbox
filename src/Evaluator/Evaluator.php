@@ -26,6 +26,10 @@ class Evaluator
      * @var Config
      */
     private $config;
+    /**
+     * @var string
+     */
+    private $php;
 
     /**
      * Evaluator constructor.
@@ -34,6 +38,7 @@ class Evaluator
     public function __construct(Config $config)
     {
         $this->config = $config;
+        $this->php = $this->config->read('php_command');
     }
 
     /**
@@ -74,7 +79,7 @@ class Evaluator
         }
 
         $cmd = [
-            $this->config->read('php_command'),
+            $this->php,
             $this->getDirectivesString(),
             $filename,
             '3>&1 1>&1 2>&1'
@@ -204,5 +209,16 @@ class Evaluator
     public function getMemoryPeak()
     {
         return $this->memoryPeak;
+    }
+
+    /**
+     * @param string|null $version
+     */
+    public function setPHP($version = null)
+    {
+        $phpVersions = $this->config->read('php_commands');
+        if (is_array($phpVersions) && in_array($version, array_keys($phpVersions))) {
+            $this->php = $phpVersions[$version];
+        }
     }
 }
