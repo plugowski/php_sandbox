@@ -48,6 +48,7 @@ html,body {
     color: #eee;
     overflow-y: auto;
     padding-right: 0;
+    height: calc(100vh - 52px);
 }
 
 .snippets-reload {

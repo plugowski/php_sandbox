@@ -71,6 +71,7 @@ Ctrl-S | Command-S | Execute code
   - changed routing from FatFree to my own (FatFree fired couple ini_sets which might conflict with security settings, where  
   ini_set() function will be disabled)
   - added snippets, which you can save and load in any time
+  - added possibility to switch between couple of php versions
 - 1.1
   - added Kint debug tool for dumping varialbles
   - refactored Config class
