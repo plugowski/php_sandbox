@@ -46,8 +46,30 @@ Restart Apache, and Voila!
 
 ## Configuration
 
-You can change blocked function list or add/change more directives for php evaluator. To do that, open `src/Config.php` 
+You can change blocked function list or add/change more directives for php evaluator. To do that, open `src/config.php` 
 and change settings you want.
+
+It is possible to define multiple versions of PHP which will be available from sandbox. So first please install required versions of php on your machine (MacPorts, apt-get etc):
+
+```
+sudo port install php53
+sudo port install php54
+sudo port install php55
+sudo port install php56
+sudo port install php70
+```
+
+Then update php_commands in config file:
+
+```php
+'php_commands' => [
+    '5.3' => '/opt/local/bin/php53',
+    '5.4' => '/opt/local/bin/php54',
+    '5.5' => '/opt/local/bin/php55',
+    '5.6' => '/opt/local/bin/php56',
+    '7.0' => '/opt/local/bin/php70'
+]
+```
 
 ## Usage
 
@@ -58,10 +80,13 @@ Changed shortcuts by me:
 
 Windows | Mac | Action
 --- | --- | ---
+Ctrl-Enter | Commantd-Enter | Execute code
+Ctrl-S | Command-S | Execute code
 Alt-Shift-Up | Option-Shift-Up | Move lines up
 Alt-Shift-Down | Option-Shift-Down | Move lines down
 Ctrl-D | Command-D | Copy line
-Ctrl-S | Command-S | Execute code
+Ctrl-Shift-L | Command-Shift-L | Toggle Snippets
+Ctrl-Shift-S | Command-Shift-S | Save Snippet
 
 ## Changelog
 
