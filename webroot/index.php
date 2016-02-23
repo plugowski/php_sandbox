@@ -60,10 +60,10 @@
 
 <div id="alerts"></div>
 
-<div class="row">
-    <div class="col-xs-1 snippets_panel hidden">
+<div class="row-fluid">
+    <div class="col-xs-0 snippets_panel">
         <ul class="snippets">
-            <li class="folder main">Snippets (<span class="snippets-reload">refresh</span>)
+            <li class="folder main">Snippets <span class="snippets-reload pull-right"><a href="#">refresh</a></span><hr/>
             </li>
         </ul>
     </div>

@@ -60,12 +60,14 @@ $(function(){
 
     var loadSnippetsList = function() {
 
+        $loader.removeClass('hidden');
         $('.snippets ul').not('.main').remove();
 
         $.getJSON('/get_snippets_list.json', function(response){
             var $ul =  $('<ul/>');
             $('.snippets .folder').append($ul);
             buildTree(response, '/', $ul);
+            $loader.addClass('hidden');
         });
     };
 
@@ -136,20 +138,8 @@ $(function(){
     };
 
     var toggleSnippetList = function() {
-        var $snippetLis = $('.snippets_panel');
-        var $columns = $('.editor_area, .preview');
-
-        if ($snippetLis.hasClass('hidden')) {
-            $columns.css({width: "44.33333334%"});
-            $snippetLis.css({width: 0}).removeClass('hidden').animate({width: "11.333333%"});
-        } else {
-            $snippetLis.animate({width: 0}, function(){
-                $columns.css({width: "50%"});
-                $(this).addClass('hidden');
-            });
-        }
-
-        //editor.resize();
+        $('.editor_area, .preview').toggleClass('col-xs-6 col-xs-5');
+        $('.snippets_panel').toggleClass('col-xs-0 col-xs-2');
     };
 
     // build snippets tree in navigator
@@ -216,7 +206,7 @@ $(function(){
         toggleSnippetList();
     });
 
-    $('.snippets-reload').click(function(e){
+    $('.snippets-reload a').click(function(e){
         e.preventDefault();
         loadSnippetsList();
     });

@@ -17,17 +17,6 @@ html,body {
     min-width: 250px;
 }
 
-#alerts {
-    position: absolute;
-    z-index: 999;
-    padding: 0;
-    width: 100%
-}
-
-#alerts .alert {
-    border-radius: 0;
-}
-
 .actions {
     position: absolute;
     top: 7px;
@@ -38,6 +27,44 @@ html,body {
     display: inline;
     color: #9d9d9d;
     font-weight: normal;
+}
+
+#alerts {
+    position: absolute;
+    z-index: 999;
+    padding: 0;
+    width: 100%
+}
+
+#alerts .alert {
+    border-radius: 0;
+    margin: 0;
+}
+
+div[class*="col"] {
+    padding-left: 0;
+}
+
+.row-fluid div[class*="col"] {
+    -webkit-transition: width 0.3s ease, margin 0.3s ease;
+    -moz-transition: width 0.3s ease, margin 0.3s ease;
+    -o-transition: width 0.3s ease, margin 0.3s ease;
+    transition: width 0.3s ease, margin 0.3s ease;
+}
+
+.row-fluid .col-xs-0 + [class*="col"]{
+    margin-left: 0;
+}
+
+.row-fluid .col-xs-0 {
+    width: 0;
+    margin-left: 0;
+    float: left;
+}
+
+.row-fluid .col-xs-0 i,
+.row-fluid .col-xs-0 .snippets-reload {
+    display: none;
 }
 
 .row {
@@ -64,13 +91,10 @@ html,body {
     text-overflow: ellipsis;
 }
 
-.snippets {
-    padding: 15px 0 15px 15px;
-    font-size: 13px;
-    font-weight: 200;
-    overflow-x: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+.snippets hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-color: #555;
 }
 
 .snippets a,
@@ -92,21 +116,6 @@ html,body {
     list-style: none;
 }
 
-/*
-.snippets li span:after {
-    content: "";
-    position: absolute;
-    display: block;
-    left: 0; right: 0;
-    height: 1.3em;
-    z-index: -1;
-}
-
-.snippets li span:hover:after {
-    background-color: #ffd300 !important;
-}
-*/
-
 .snippets li.file::before,
 .snippets li.folder::before {
     font-family: FontAwesome;
@@ -121,8 +130,21 @@ html,body {
     content: "\f07b\00a0";
 }
 
+.snippets li.file {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;;
+}
+
+.snippets li.file:hover {
+    border-bottom: 1px dashed #555;
+    border-top: 1px dashed #555;
+}
+
 .snippets .fa-trash-o {
     cursor: pointer;
+    position: relative;
+    top: 3px;
+    color: #D62A16;
 }
 
 .preview {
@@ -146,7 +168,7 @@ html,body {
     opacity: 0.5;
     position: absolute;
     top: 50%;
-    left: -25px;
+    left: -41px;
     margin-top: -50px;
 }
 
