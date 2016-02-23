@@ -103,7 +103,7 @@ class Evaluator
     {
         $bootstrapFile = $this->config->read('bootstrap_file');
         if (!strpos($code, $this->requireBootstrapString()) && !empty($bootstrapFile) && file_exists($bootstrapFile)) {
-            $code = str_replace('<?php', '<?php' . $this->requireBootstrapString(), $code);
+            $code = preg_replace('/^<\?php(\s*declare[^;]+;)?/', '<?php$1' . $this->requireBootstrapString(), $code);
         }
 
         return $code;
@@ -177,8 +177,11 @@ class Evaluator
         $file = file_get_contents($this->config->read('tmp_dir') . self::FILENAME);
         $contents = explode(PHP_EOL, $file);
 
-        if (strpos($contents[0], $this->requireBootstrapString())) {
-            $contents[0] = str_replace($this->requireBootstrapString(), '', $contents[0]);
+        foreach ($contents as $key => $value) {
+            if (strpos($value, $this->requireBootstrapString())) {
+                $contents[$key] = str_replace($this->requireBootstrapString(), '', $value);
+                break;
+            }
         }
 
         if (preg_match(self::BENCHMARK_PATTERN, end($contents))) {
