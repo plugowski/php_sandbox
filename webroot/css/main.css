@@ -82,7 +82,8 @@ div[class*="col"] {
     cursor: pointer;
 }
 
-.snippets {
+.snippets,
+.packages {
     padding: 15px 0 15px 15px;
     font-size: 13px;
     font-weight: 200;
@@ -91,7 +92,8 @@ div[class*="col"] {
     text-overflow: ellipsis;
 }
 
-.snippets hr {
+.snippets hr,
+.packages hr {
     margin-top: 5px;
     margin-bottom: 5px;
     border-color: #555;
@@ -104,20 +106,23 @@ div[class*="col"] {
     color: #eee;
 }
 
-.snippets ul {
+.snippets ul,
+.packages ul {
     list-style: none;
     padding: 0;
     margin-left: 14px;
 }
 
-.snippets li {
+.snippets li,
+.packages li {
     overflow-x: hidden;
     text-overflow: ellipsis;
     list-style: none;
 }
 
 .snippets li.file::before,
-.snippets li.folder::before {
+.snippets li.folder::before,
+.packages li.package::before {
     font-family: FontAwesome;
 }
 
@@ -128,6 +133,11 @@ div[class*="col"] {
 .snippets li.folder::before {
     color: #ffa900;
     content: "\f07b\00a0";
+}
+
+.packages li.package::before {
+    color: #91D0F1;
+    content: "\f187\00a0";
 }
 
 .snippets li.file {

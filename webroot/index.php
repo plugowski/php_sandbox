@@ -66,6 +66,26 @@
             <li class="folder main">Snippets <span class="snippets-reload pull-right"><a href="#">refresh</a></span><hr/>
             </li>
         </ul>
+        <ul class="packages">
+            <li class="package main">Libraries <span class="snippets-reload pull-right"><a href="#">refresh</a></span><hr/>
+                <ul>
+                    <li>
+                        <i class="fa fa-database"></i> Composer
+                        <ul>
+                            <li><i class="fa fa-bookmark"></i> plugowski/m3u</li>
+                            <li><i class="fa fa-bookmark"></i> plugowski/php_router</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fa fa-clone"></i> Classes
+                        <ul>
+                            <li><i class="fa fa-file"></i> jsonRPCClient.php</li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
     </div>
     <div class="col-xs-6 editor_area">
         <div id="editor"></div>
