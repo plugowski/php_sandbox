@@ -99,10 +99,10 @@ div[class*="col"] {
     border-color: #555;
 }
 
-.snippets a,
-.snippets a:hover,
-.snippets a:active,
-.snippets a:visited {
+.snippets_panel a,
+.snippets_panel a:hover,
+.snippets_panel a:active,
+.snippets_panel a:visited {
     color: #eee;
 }
 
@@ -122,7 +122,11 @@ div[class*="col"] {
 
 .snippets li.file::before,
 .snippets li.folder::before,
-.packages li.package::before {
+.packages li.package::before,
+.packages li.composer::before,
+.packages li.classes::before,
+.packages li.composer ul > li::before,
+.packages li.classes ul > li::before {
     font-family: FontAwesome;
 }
 
@@ -140,17 +144,33 @@ div[class*="col"] {
     content: "\f187\00a0";
 }
 
-.snippets li.file {
+.packages li.composer::before {
+    content: "\f1c0\00a0";"
+}
+
+.packages li.classes::before {
+    content: "\f24d\00a0";"
+}
+
+.packages li.composer ul > li::before,
+.packages li.classes ul > li::before {
+    content: "\f121\00a0";"
+}
+
+.snippets li.file,
+.packages ul > li > ul > li {
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;;
 }
 
-.snippets li.file:hover {
+.snippets li.file:hover,
+.packages ul > li > ul > li:hover {
     border-bottom: 1px dashed #555;
     border-top: 1px dashed #555;
 }
 
-.snippets .fa-trash-o {
+.snippets .fa-trash-o,
+.packages .fa-trash-o {
     cursor: pointer;
     position: relative;
     top: 3px;

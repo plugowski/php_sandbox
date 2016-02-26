@@ -8,6 +8,7 @@ use PhpRouter\Router;
 use PhpRouter\RouteRequest;
 use PhpSandbox\Evaluator\Config;
 use PhpSandbox\Evaluator\Evaluator;
+use PhpSandbox\Evaluator\Library;
 use PhpSandbox\Evaluator\Snippet;
 use PhpSandbox\Evaluator\SnippetException;
 
@@ -71,7 +72,7 @@ $routing->attach(new Route('POST /save_snippet.json [ajax]', function() use ($co
 /**
  * Get snippets list
  */
-$routing->attach(new Route('GET  /get_snippets_list.json', function() use ($config) {
+$routing->attach(new Route('GET  /get_snippets_list.json [ajax]', function() use ($config) {
     $snippets = (new Snippet($config))->getList();
     echo json_encode($snippets);
 }));
@@ -79,8 +80,25 @@ $routing->attach(new Route('GET  /get_snippets_list.json', function() use ($conf
 $routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
 $routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->delete', [$config]));
 
+
 /**
- * Get snippets list
+ * Get libraries list
+ */
+$routing->attach(new Route('GET  /get_libraries_list.json [ajax]', function() use ($config) {
+    $libs = (new Library($config))->getList();
+    echo json_encode($libs);
+}));
+
+/**
+ * Remove library
+ */
+$routing->attach(new Route('DELETE  /delete_library/@filename [ajax]', ['filename' => '[/\w]+'], function($param) use ($config) {
+    (new Library($config))->removePackage($param['filename']);
+    // todo: status usuwania pliku
+}));
+
+/**
+ * Get available php versions
  */
 $routing->attach(new Route('GET  /get_php_versions.json [ajax]', function() use ($config) {
     $phpPaths = $config->read('php_commands');

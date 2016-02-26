@@ -12,10 +12,10 @@ return [
      */
     'php_commands' => [
 //        '5.3' => '/opt/local/bin/php53',
-//        '5.4' => '/opt/local/bin/php54',
-//        '5.5' => '/opt/local/bin/php55',
-//        '5.6' => '/opt/local/bin/php56',
-//        '7.0' => '/opt/local/bin/php70'
+        '5.4' => '/opt/local/bin/php54',
+        '5.5' => '/opt/local/bin/php55',
+        '5.6' => '/opt/local/bin/php56',
+        '7.0' => '/opt/local/bin/php70'
     ],
 
     /**
@@ -27,6 +27,11 @@ return [
      * Dir where all snippets will be stored
      */
     'snippets_dir' => '/tmp/php_sandbox/snippets/',
+
+    /**
+     * Dir where all libraries/vendors should be stored
+     */
+    'vendors_dir' => '/tmp/php_sandbox/vendor',
 
     /**
      * Pre-execute scripts

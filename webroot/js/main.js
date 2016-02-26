@@ -58,6 +58,64 @@ $(function(){
         });
     };
 
+    var loadLibrariesList = function() {
+        $loader.removeClass('hidden');
+        $('.packages ul').not('.main').remove();
+
+        $.getJSON('/get_libraries_list.json', function(response){
+            var $ul =  $('<ul/>');
+            var $delete = $('<i class="fa fa-trash-o pull-right" />');
+
+            $.each(response, function(i, item){
+                var ul = $ul.clone();
+                var li = $('<li/>');
+
+                if (item.length == 0) {
+                    return;
+                }
+
+                ul.append($('<li/>').addClass(i).html(i).append($('<ul />')));
+
+                $.each(item, function(k, v){
+                    ul.find('.' + i + ' ul').append(li.html(k + ' (' + v +')').append($delete));
+                    $delete.click(function(){ deleteLibrary(k); });
+                });
+
+
+                $('.packages .package').append(ul);
+            });
+
+            $loader.addClass('hidden');
+        });
+    };
+
+    var deleteLibrary = function(filename) {
+        bootbox.dialog({
+            title: "Confirm library deletion",
+            message: "Are you sure to delete library: <strong>" + filename + "</strong>",
+            buttons: {
+                main: {
+                    label: "Cancel",
+                    callback: function () {
+                        editor.focus();
+                    }
+                },
+                danger: {
+                    label: "Delete",
+                    className: "btn-danger",
+                    callback: function () {
+                        $loader.removeClass('hidden');
+
+                        $.post('/delete_library/' + filename, {_method: 'DELETE'}, function (response) {
+                            $loader.addClass('hidden');
+                            setTimeout(loadLibrariesList(), 1000);
+                        });
+                    }
+                }
+            }
+        });
+    };
+
     var loadSnippetsList = function() {
 
         $loader.removeClass('hidden');
@@ -102,7 +160,7 @@ $(function(){
     var deleteSnippet = function(filename) {
         bootbox.dialog({
             title: "Confirm file deletion",
-            message: "Are you sure to delete file: " + filename,
+            message: "Are you sure to delete file: <strong>" + filename + "</strong>",
             buttons: {
                 main: {
                     label: "Cancel",
@@ -290,4 +348,5 @@ $(function(){
 
     loadPhpVersions();
     loadSnippetsList();
+    loadLibrariesList();
 });
