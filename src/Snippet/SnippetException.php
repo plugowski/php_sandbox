@@ -1,5 +1,5 @@
 <?php
-namespace PhpSandbox\Evaluator;
+namespace PhpSandbox\Snippet;
 
 use Exception;
 

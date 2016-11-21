@@ -9,8 +9,9 @@ use PhpRouter\RouteRequest;
 use PhpSandbox\Evaluator\Config;
 use PhpSandbox\Evaluator\Evaluator;
 use PhpSandbox\Evaluator\Library;
-use PhpSandbox\Evaluator\Snippet;
-use PhpSandbox\Evaluator\SnippetException;
+use PhpSandbox\Snippet\SnippetException;
+use PhpSandbox\Snippet\SnippetRepository;
+use PhpSandbox\Snippet\SnippetService;
 
 // load config file
 $config = new Config(__DIR__ . '/../src/config.php');
@@ -54,14 +55,15 @@ $routing->attach(new Route('POST /execute/@phpversion.json [ajax]', ['phpversion
     }
 }));
 
+$snippetService = new SnippetService(new SnippetRepository($config->read('snippets_dir')));
+
 /**
  * Validate and save new snippet
  */
-$routing->attach(new Route('POST /save_snippet.json [ajax]', function() use ($config){
-
+$routing->attach(new Route('POST /save_snippet.json [ajax]', function() use ($snippetService){
     if (!empty($_POST['name']) && !empty($_POST['code'])) {
         try {
-            (new Snippet($config))->save($_POST['name'], $_POST['code']);
+            $snippetService->save($_POST['name'], $_POST['code']);
             echo json_encode(['status' => 'success']);
         } catch (SnippetException $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
@@ -72,14 +74,23 @@ $routing->attach(new Route('POST /save_snippet.json [ajax]', function() use ($co
 /**
  * Get snippets list
  */
-$routing->attach(new Route('GET  /get_snippets_list.json [ajax]', function() use ($config) {
-    $snippets = (new Snippet($config))->getList();
-    echo json_encode($snippets);
+$routing->attach(new Route('GET  /get_snippets_list.json [ajax]', function() use ($snippetService) {
+    echo json_encode($snippetService->getList());
 }));
 
-$routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
-$routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->delete', [$config]));
+/**
+ * Load snippet contents
+ */
+$routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], function($params) use ($snippetService) {
+    echo json_encode($snippetService->load($params['filename']));
+}));
 
+/**
+ * Delete specified snippets
+ */
+$routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], function($params) use ($snippetService) {
+    $snippetService->delete($params['filename']);
+}));
 
 /**
  * Get libraries list

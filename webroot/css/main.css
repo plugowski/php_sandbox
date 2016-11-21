@@ -63,7 +63,8 @@ div[class*="col"] {
 }
 
 .row-fluid .col-xs-0 i,
-.row-fluid .col-xs-0 .snippets-reload {
+.row-fluid .col-xs-0 .snippets-reload,
+.row-fluid .col-xs-0 .libraries-reload {
     display: none;
 }
 

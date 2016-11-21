@@ -30,7 +30,7 @@
 <nav class="navbar navbar-inverse">
 
     <div class="navbar-header">
-        <span class="navbar-brand">PHP Sandbox v1.2 <small> - PHP: <?php echo phpversion(); ?></small></span>
+        <span class="navbar-brand">PHP Sandbox v1.2</span>
     </div>
 
 <!--    <span class="kbd" data-macos="⇧⌘S">Ctrl+Shift+S</span> -->
