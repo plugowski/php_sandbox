@@ -62,13 +62,17 @@ $snippetService = new SnippetService(new SnippetRepository($config->read('snippe
  * Validate and save new snippet
  */
 $routing->attach(new Route('POST /save_snippet.json [ajax]', function() use ($snippetService){
-    if (!empty($_POST['name']) && !empty($_POST['code'])) {
-        try {
-            $snippetService->save($_POST['name'], $_POST['code']);
-            echo json_encode(['status' => 'success']);
-        } catch (SnippetException $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
+
+    if (empty($_POST['name']) || empty($_POST['code'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Name and content can\'t be empty.']);
+        return;
+    }
+
+    try {
+        $snippetService->save($_POST['name'], $_POST['code']);
+        echo json_encode(['status' => 'success']);
+    } catch (SnippetException $e) {
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
 }));
 
