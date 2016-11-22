@@ -8,8 +8,11 @@ use PhpRouter\Router;
 use PhpRouter\RouteRequest;
 use PhpSandbox\Evaluator\Config;
 use PhpSandbox\Evaluator\Evaluator;
-use PhpSandbox\Evaluator\Snippet;
-use PhpSandbox\Evaluator\SnippetException;
+use PhpSandbox\Library\LibraryRepository;
+use PhpSandbox\Library\LibraryService;
+use PhpSandbox\Snippet\SnippetException;
+use PhpSandbox\Snippet\SnippetRepository;
+use PhpSandbox\Snippet\SnippetService;
 
 // load config file
 $config = new Config(__DIR__ . '/../src/config.php');
@@ -53,34 +56,85 @@ $routing->attach(new Route('POST /execute/@phpversion.json [ajax]', ['phpversion
     }
 }));
 
+$snippetService = new SnippetService(new SnippetRepository($config->read('snippets_dir')));
+
 /**
  * Validate and save new snippet
  */
-$routing->attach(new Route('POST /save_snippet.json [ajax]', function() use ($config){
+$routing->attach(new Route('POST /save_snippet.json [ajax]', function() use ($snippetService){
 
-    if (!empty($_POST['name']) && !empty($_POST['code'])) {
-        try {
-            (new Snippet($config))->save($_POST['name'], $_POST['code']);
-            echo json_encode(['status' => 'success']);
-        } catch (SnippetException $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
+    if (empty($_POST['name']) || empty($_POST['code'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Name and content can\'t be empty.']);
+        return;
+    }
+
+    try {
+        $snippetService->save($_POST['name'], $_POST['code']);
+        echo json_encode(['status' => 'success']);
+    } catch (SnippetException $e) {
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
 }));
 
 /**
  * Get snippets list
  */
-$routing->attach(new Route('GET  /get_snippets_list.json', function() use ($config) {
-    $snippets = (new Snippet($config))->getList();
-    echo json_encode($snippets);
+$routing->attach(new Route('GET  /get_snippets_list.json [ajax]', function() use ($snippetService) {
+    echo json_encode($snippetService->getList());
 }));
 
-$routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->load', [$config]));
-$routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], '\PhpSandbox\Evaluator\Snippet->delete', [$config]));
+/**
+ * Load snippet contents
+ */
+$routing->attach(new Route('GET  /get_snippet/@filename', ['filename' => '[/\w]+.php'], function($params) use ($snippetService) {
+    echo json_encode($snippetService->load($params['filename']));
+}));
 
 /**
- * Get snippets list
+ * Delete specified snippets
+ */
+$routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '[/\w]+.php'], function($params) use ($snippetService) {
+    $snippetService->delete($params['filename']);
+}));
+
+$libraryService = new LibraryService(new LibraryRepository($config->read('vendors_dir'), $config->read('tmp_dir')));
+
+/**
+ * Get libraries list
+ */
+$routing->attach(new Route('GET  /get_libraries_list.json', function() use ($libraryService) {
+    echo json_encode(['composer' => $libraryService->getList()]);
+}));
+
+/**
+ * Remove library
+ */
+$routing->attach(new Route('DELETE  /delete_library/@filename [ajax]', ['filename' => '[/\w]+'], function($param) use ($config, $libraryService) {
+    ini_set('memory_limit', $config->read('memory_limit'));
+    $libraryService->removePackage($param['filename']);
+}));
+
+/**
+ * Add new library
+ */
+$routing->attach(new Route('POST  /add_library.json [ajax]', function() use ($config, $libraryService) {
+    ini_set('memory_limit', $config->read('memory_limit'));
+
+    if (empty($_POST['name']) || false === $libraryService->validatePackage($_POST['name'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Wrong package name or package doesn\'t exist.']);
+        return;
+    }
+
+    try {
+        $libraryService->addPackage($_POST['name']);
+        echo json_encode(['status' => 'success']);
+    } catch (SnippetException $e) {
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    }
+}));
+
+/**
+ * Get available php versions
  */
 $routing->attach(new Route('GET  /get_php_versions.json [ajax]', function() use ($config) {
     $phpPaths = $config->read('php_commands');

@@ -12,10 +12,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function shouldLoadConfigAndGetCorrectValue()
     {
         $config = new Config(__DIR__ . '/../src/config.php');
-        $dir = $config->read('tmp_dir');
+        $command = $config->read('php_command');
 
-        $this->assertEquals('/tmp/php_sandbox/', $dir);
-        $this->assertTrue($config->has('php_command'));
+        $this->assertEquals('php', $command);
+        $this->assertTrue($config->has('tmp_dir'));
     }
 
     /**

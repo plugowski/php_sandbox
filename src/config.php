@@ -11,27 +11,36 @@ return [
      * destinations for different php versions, uncomment or modify paths that match to your environment
      */
     'php_commands' => [
-//        '5.3' => '/opt/local/bin/php53',
-//        '5.4' => '/opt/local/bin/php54',
-//        '5.5' => '/opt/local/bin/php55',
-//        '5.6' => '/opt/local/bin/php56',
-//        '7.0' => '/opt/local/bin/php70'
+        '5.6' => '/opt/local/bin/php56',
+        '5.4' => '/opt/local/bin/php54',
+        '5.5' => '/opt/local/bin/php55',
+        '7.0' => '/opt/local/bin/php70'
     ],
 
     /**
      * Dir where temporary file code.php will be created and executed
      */
-    'tmp_dir' => '/tmp/php_sandbox/',
+    'tmp_dir' => __DIR__ . '/../tmp/',
 
     /**
      * Dir where all snippets will be stored
      */
-    'snippets_dir' => '/tmp/php_sandbox/snippets/',
+    'snippets_dir' => __DIR__ . '/../tmp/snippets/',
+
+    /**
+     * Dir where all libraries/vendors should be stored
+     */
+    'vendors_dir' => __DIR__ . '/../tmp/vendor/',
 
     /**
      * Pre-execute scripts
      */
     'bootstrap_file' => realpath(__DIR__ . '/bootstrap.php'),
+
+    /**
+     * Set memory limit for Sandbox
+     */
+    'memory_limit' => '1G',
 
     /**
      * Which benchmarks should be collect on end of script
@@ -45,8 +54,8 @@ return [
      * Definition of directives use when script will be executed
      */
     'directives' => [
-        'allow_url_fopen' => 'Off',
-        'allow_url_include' => 'Off',
+        // 'allow_url_fopen' => 'Off',
+        // 'allow_url_include' => 'Off',
         'max_execution_time' => '5'
     ],
 

@@ -1,4 +1,6 @@
 <?php
+use PhpSandbox\Evaluator\Config;
+
 // start count memory usage
 $ev__memory_bootstrap_start = [
     'usage' => memory_get_usage(),
@@ -6,6 +8,13 @@ $ev__memory_bootstrap_start = [
 ];
 
 require(__DIR__ . '/../vendor/raveren/kint/Kint.class.php');
+require(__DIR__ . '/Evaluator/Config.php');
+
+$config = new Config(__DIR__ . '/config.php');
+
+if (file_exists($config->read('vendors_dir') . '/autoload.php')) {
+    require($config->read('vendors_dir') . '/autoload.php');
+}
 
 // Kint configuration
 Kint::$displayCalledFrom = false;

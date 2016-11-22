@@ -30,17 +30,15 @@
 <nav class="navbar navbar-inverse">
 
     <div class="navbar-header">
-        <span class="navbar-brand">PHP Sandbox v1.2 <small> - PHP: <?php echo phpversion(); ?></small></span>
+        <span class="navbar-brand">PHP Sandbox v1.3</span>
     </div>
 
+<!--    <span class="kbd" data-macos="⇧⌘S">Ctrl+Shift+S</span> -->
+
     <ul class="nav navbar-nav">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#" id="saveSnippet">Save snippet <span class="pull-right kbd" data-macos="⇧⌘S">Ctrl+Shift+S</span></a></li>
-                <li><a href="#" id="loadSnippet">Snippets list <span class="pull-right kbd" data-macos="⇧⌘L">Cmd+Shift+L</span></a></li>
-            </ul>
-        </li>
+        <li><a href="#" id="loadSnippet"><i class="fa fa-list"></i> Show sidebar</a></li>
+        <li><a href="#" id="addLibrary"><i class="fa fa-archive"></i> Add library</a></li>
+        <li><a href="#" id="saveSnippet"><i class="fa fa-save"></i> Save snippet</a></li>
         <li><a href="#" class="reload"><i class="fa fa-refresh"></i> Load last</a></li>
     </ul>
 
@@ -63,8 +61,10 @@
 <div class="row-fluid">
     <div class="col-xs-0 snippets_panel">
         <ul class="snippets">
-            <li class="folder main">Snippets <span class="snippets-reload pull-right"><a href="#">refresh</a></span><hr/>
-            </li>
+            <li class="folder main">Snippets <span class="snippets-reload pull-right"><a href="#">refresh</a></span><hr/></li>
+        </ul>
+        <ul class="packages">
+            <li class="package main">Libraries <span class="libraries-reload pull-right"><a href="#">refresh</a></span><hr/></li>
         </ul>
     </div>
     <div class="col-xs-6 editor_area">
