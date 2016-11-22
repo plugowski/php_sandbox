@@ -85,16 +85,18 @@ Ctrl-S | Command-S | Execute code
 Alt-Shift-Up | Option-Shift-Up | Move lines up
 Alt-Shift-Down | Option-Shift-Down | Move lines down
 Ctrl-D | Command-D | Copy line
-Ctrl-Shift-L | Command-Shift-L | Toggle Snippets
+Ctrl-Shift-L | Command-Shift-L | Show sidebar
 Ctrl-Shift-S | Command-Shift-S | Save Snippet
+Ctrl-Shift-P | Command-Shift-P | Add Library / Package
 
 ## Changelog
 
+- 1.3
+  - added library manager, now you are able to add external libraries from packagist, and use it in sandbox directly
 - 1.2
   - fixed counting of memory used by script (now it is counting only for evaluated script without extra stuff from bootstrap)
   - added new PhpStorm shortcut
-  - changed routing from FatFree to my own (FatFree fired couple ini_sets which might conflict with security settings, where  
-  ini_set() function will be disabled)
+  - changed routing from FatFree to my own (FatFree fired couple ini_sets which might conflict with security settings, where  ini_set() function will be disabled)
   - added snippets, which you can save and load in any time
   - added possibility to switch between couple of php versions
 - 1.1

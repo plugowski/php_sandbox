@@ -356,6 +356,13 @@ $(function(){
     });
 
     editor.commands.addCommand({
+        name: "addlibrary",
+        bindKey: {win: "Ctrl-Shift-P", mac: "Command-Shift-P"},
+        exec: function() { addLibrary(); },
+        scrollIntoView: "cursor"
+    });
+
+    editor.commands.addCommand({
         name: "showsnippetlist",
         bindKey: {win: "Ctrl-Shift-L", mac: "Command-Shift-L"},
         exec: function() { toggleSnippetList(); },
@@ -365,6 +372,10 @@ $(function(){
     // global for non editor area
     Mousetrap.bind(["ctrl+shift+s", "command+shift+s"], function(){
         saveSnippet(editor.getValue());
+    });
+
+    Mousetrap.bind(["ctrl+shift+p", "command+shift+p"], function(){
+        addLibrary();
     });
 
     Mousetrap.bind(["ctrl+shift+l", "command+shift+l"], function(){
