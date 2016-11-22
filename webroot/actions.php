@@ -8,7 +8,8 @@ use PhpRouter\Router;
 use PhpRouter\RouteRequest;
 use PhpSandbox\Evaluator\Config;
 use PhpSandbox\Evaluator\Evaluator;
-use PhpSandbox\Evaluator\Library;
+use PhpSandbox\Library\LibraryRepository;
+use PhpSandbox\Library\LibraryService;
 use PhpSandbox\Snippet\SnippetException;
 use PhpSandbox\Snippet\SnippetRepository;
 use PhpSandbox\Snippet\SnippetService;
@@ -92,20 +93,40 @@ $routing->attach(new Route('DELETE  /delete_snippet/@filename', ['filename' => '
     $snippetService->delete($params['filename']);
 }));
 
+$libraryService = new LibraryService(new LibraryRepository($config->read('vendors_dir'), $config->read('tmp_dir')));
+
 /**
  * Get libraries list
  */
-$routing->attach(new Route('GET  /get_libraries_list.json [ajax]', function() use ($config) {
-    $libs = (new Library($config))->getList();
-    echo json_encode($libs);
+$routing->attach(new Route('GET  /get_libraries_list.json', function() use ($libraryService) {
+    echo json_encode(['composer' => $libraryService->getList()]);
 }));
 
 /**
  * Remove library
  */
-$routing->attach(new Route('DELETE  /delete_library/@filename [ajax]', ['filename' => '[/\w]+'], function($param) use ($config) {
-    (new Library($config))->removePackage($param['filename']);
-    // todo: status usuwania pliku
+$routing->attach(new Route('DELETE  /delete_library/@filename [ajax]', ['filename' => '[/\w]+'], function($param) use ($config, $libraryService) {
+    ini_set('memory_limit', $config->read('memory_limit'));
+    $libraryService->removePackage($param['filename']);
+}));
+
+/**
+ * Add new library
+ */
+$routing->attach(new Route('POST  /add_library.json [ajax]', function() use ($config, $libraryService) {
+    ini_set('memory_limit', $config->read('memory_limit'));
+
+    if (empty($_POST['name']) || false === $libraryService->validatePackage($_POST['name'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Wrong package name or package doesn\'t exist.']);
+        return;
+    }
+
+    try {
+        $libraryService->addPackage($_POST['name']);
+        echo json_encode(['status' => 'success']);
+    } catch (SnippetException $e) {
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    }
 }));
 
 /**

@@ -38,6 +38,11 @@ return [
     'bootstrap_file' => realpath(__DIR__ . '/bootstrap.php'),
 
     /**
+     * Set memory limit for Sandbox
+     */
+    'memory_limit' => '1G',
+
+    /**
      * Which benchmarks should be collect on end of script
      */
     'benchmarks' => [

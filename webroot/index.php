@@ -36,9 +36,9 @@
 <!--    <span class="kbd" data-macos="⇧⌘S">Ctrl+Shift+S</span> -->
 
     <ul class="nav navbar-nav">
+        <li><a href="#" id="loadSnippet"><i class="fa fa-list"></i> Show sidebar</a></li>
         <li><a href="#" id="addLibrary"><i class="fa fa-archive"></i> Add library</a></li>
         <li><a href="#" id="saveSnippet"><i class="fa fa-save"></i> Save snippet</a></li>
-        <li><a href="#" id="loadSnippet"><i class="fa fa-list"></i> Snippets list</a></li>
         <li><a href="#" class="reload"><i class="fa fa-refresh"></i> Load last</a></li>
     </ul>
 

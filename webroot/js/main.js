@@ -7,6 +7,11 @@ $(function(){
     var $loader = $('.loader');
     var editor = ace.edit("editor");
     var PhpMode = ace.require("ace/mode/php").Mode;
+    var $alert = $('<div class="alert" role="alert">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+        '<span class="message" />' +
+        '</div>');
+
     var postCode = function(editor) {
 
         if (alloweRequest === false) {
@@ -58,6 +63,30 @@ $(function(){
         });
     };
 
+    var addLibrary = function() {
+        bootbox.prompt("Enter package like: components/jquery:2.2.*", function(result) {
+            if (result !== null) {
+                $loader.removeClass('hidden');
+
+                // todo: walidacja aphanumeric
+                // todo: walidacja czy paczka istnieje
+
+                $.post('add_library.json', {name: result}, function(response){
+
+                    response = JSON.parse(response);
+                    if (response.status == 'error') {
+                        $alert.addClass('alert-warning').find('.message').html('<strong>Problem when adding package!</strong> ' + response.message);
+                        $('#alerts').append($alert);
+                    }
+
+                    $loader.addClass('hidden');
+                    setTimeout(loadLibrariesList(), 1000);
+                });
+            }
+            editor.focus();
+        });
+    };
+
     var loadLibrariesList = function() {
         $loader.removeClass('hidden');
         $('.packages ul').not('.main').remove();
@@ -65,22 +94,18 @@ $(function(){
         $.getJSON('/get_libraries_list.json', function(response){
             var $ul =  $('<ul/>');
             var $delete = $('<i class="fa fa-trash-o pull-right" />');
+            // var ul = $ul.clone();
 
             $.each(response, function(i, item){
                 var ul = $ul.clone();
-                var li = $('<li/>');
-
-                if (item.length == 0) {
-                    return;
-                }
 
                 ul.append($('<li/>').addClass(i).html(i).append($('<ul />')));
 
                 $.each(item, function(k, v){
-                    ul.find('.' + i + ' ul').append(li.html(k + ' (' + v +')').append($delete));
-                    $delete.click(function(){ deleteLibrary(k); });
+                    var delIcon = $delete.clone();
+                    ul.find('.' + i + ' ul').append($('<li/>').html(v.name + ' (' + v.version +')').append(delIcon));
+                    delIcon.click(function(){ deleteLibrary(v.name); });
                 });
-
 
                 $('.packages .package').append(ul);
             });
@@ -130,11 +155,6 @@ $(function(){
     };
 
     var saveSnippet = function(code) {
-        var $alert = $('<div class="alert" role="alert">' +
-            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-            '<span class="message" />' +
-        '</div>');
-
         bootbox.prompt("Enter name for new snippet:", function(result) {
             if (result !== null) {
                 $loader.removeClass('hidden');
@@ -252,6 +272,11 @@ $(function(){
 
     $('#formatted').click(function(){
         $('.output').toggleClass('format', $(this).is(':checked'));
+    });
+
+    $('#addLibrary').click(function(e){
+        e.preventDefault();
+        addLibrary();
     });
 
     $('#saveSnippet').click(function(e){

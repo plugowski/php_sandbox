@@ -131,7 +131,7 @@ class SnippetRepository
         $dir = implode('/', $parts);
 
         // if dir is empty, remove it
-        if (count(scandir($dir)) == 2) {
+        if ($dir !== $this->dir && count(scandir($dir)) == 2) {
             rmdir($dir);
         }
 
