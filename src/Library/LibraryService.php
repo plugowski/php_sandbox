@@ -24,6 +24,7 @@ class LibraryService
 
     /**
      * @param string $name
+     * @return bool
      */
     public function addPackage($name)
     {
@@ -46,7 +47,19 @@ class LibraryService
      */
     public function validatePackage($name)
     {
-        return preg_match(LibraryRepository::PACKAGE_PATTERN, $name);
+        if (!preg_match(LibraryRepository::PACKAGE_PATTERN, $name)) {
+            return false;
+        }
+
+        $packageName = explode(':', $name)[0];
+        $results = $this->repository->search($packageName);
+        /** @var Library $package */
+        foreach ($results as $package) {
+            if ($packageName === $package->getName()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

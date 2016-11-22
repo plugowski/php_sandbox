@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class LibraryRepository
 {
-    const PACKAGE_PATTERN = '/^[[:alnum:]-\/]+:[0-9\.]+$/';
+    const PACKAGE_PATTERN = '/^[[:alnum:]-\/_]+(:[0-9\.*]+)*$/';
     /**
      * @var string
      */
@@ -39,6 +39,24 @@ class LibraryRepository
     public function add($name)
     {
         return $this->composer('require', ['packages' => [$name]]); //, '--quiet']);
+    }
+
+    /**
+     * @param string $name
+     * @return LibraryCollection
+     */
+    public function search($name)
+    {
+        $libraryCollection = new LibraryCollection();
+        $foundPackages = $this->composer('search', ['tokens' => [$name], '-N' => null]);
+        $results = explode(PHP_EOL, $foundPackages);
+
+        foreach ($results as $package) {
+            if (preg_match(self::PACKAGE_PATTERN, $package)) {
+                $libraryCollection->add(new Library($package, '*'));
+            }
+        }
+        return $libraryCollection;
     }
 
     /**
@@ -104,9 +122,9 @@ class LibraryRepository
      * @param string $name
      * @return array
      */
-    private function getPackageInfo($name)
+    public function getPackageInfo($name)
     {
-        $info = $this->composerCommand('show', ['package' => $name]);
+        $info = $this->composer('show', ['package' => $name]);
         preg_match_all('/(?<header>\w+)(?:\s*:)(\s+|\s(?<value>.+))\r?\n/', $info, $return);
         return array_combine($return['header'], $return['value']);
     }
