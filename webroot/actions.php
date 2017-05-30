@@ -12,7 +12,7 @@ use PhpSandbox\Evaluator\Snippet;
 use PhpSandbox\Evaluator\SnippetException;
 
 // load config file
-$config = new Config(__DIR__ . '/../src/config.php');
+$config = new Config(__DIR__ . '/../config/config.php');
 $routing = new RouteCollection();
 
 /**

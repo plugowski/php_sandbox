@@ -1,0 +1,30 @@
+version: '2'
+services:
+    app:
+        image: debian:jessie
+        volumes:
+            - .:/var/www/phpsandbox
+        tty: true
+    php70:
+        build: config/docker/php71
+        volumes:
+            - /var/www/phpsandbox/tmp/logs
+        volumes_from:
+            - app
+    php71:
+        build: config/docker/php71
+        volumes:
+            - /var/www/phpsandbox/tmp/logs
+        volumes_from:
+            - app
+    nginx:
+        build: config/docker/nginx
+        ports:
+            - 8080:80
+        depends_on:
+            - php70
+            - php71
+        volumes_from:
+            - app
+        volumes:
+            - ./tmp/logs/nginx:/var/log/nginx
