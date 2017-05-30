@@ -18,17 +18,27 @@ return [
     /**
      * Dir where temporary file code.php will be created and executed
      */
-    'tmp_dir' => '/tmp/php_sandbox/',
+    'tmp_dir' => __DIR__ . '/../tmp/',
 
     /**
      * Dir where all snippets will be stored
      */
-    'snippets_dir' => '/tmp/php_sandbox/snippets/',
+    'snippets_dir' => __DIR__ . '/../tmp/snippets/',
+
+    /**
+     * Dir where all libraries/vendors should be stored
+     */
+    'vendors_dir' => __DIR__ . '/../tmp/vendor/',
 
     /**
      * Pre-execute scripts
      */
     'bootstrap_file' => realpath(__DIR__ . '/bootstrap.php'),
+
+    /**
+     * Set memory limit for Sandbox
+     */
+    'memory_limit' => '1G',
 
     /**
      * Which benchmarks should be collect on end of script
@@ -42,8 +52,8 @@ return [
      * Definition of directives use when script will be executed
      */
     'directives' => [
-        'allow_url_fopen' => 'Off',
-        'allow_url_include' => 'Off',
+        // 'allow_url_fopen' => 'Off',
+        // 'allow_url_include' => 'Off',
         'max_execution_time' => '5'
     ],
 

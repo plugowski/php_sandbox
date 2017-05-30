@@ -63,7 +63,8 @@ div[class*="col"] {
 }
 
 .row-fluid .col-xs-0 i,
-.row-fluid .col-xs-0 .snippets-reload {
+.row-fluid .col-xs-0 .snippets-reload,
+.row-fluid .col-xs-0 .libraries-reload {
     display: none;
 }
 
@@ -82,7 +83,8 @@ div[class*="col"] {
     cursor: pointer;
 }
 
-.snippets {
+.snippets,
+.packages {
     padding: 15px 0 15px 15px;
     font-size: 13px;
     font-weight: 200;
@@ -91,33 +93,41 @@ div[class*="col"] {
     text-overflow: ellipsis;
 }
 
-.snippets hr {
+.snippets hr,
+.packages hr {
     margin-top: 5px;
     margin-bottom: 5px;
     border-color: #555;
 }
 
-.snippets a,
-.snippets a:hover,
-.snippets a:active,
-.snippets a:visited {
+.snippets_panel a,
+.snippets_panel a:hover,
+.snippets_panel a:active,
+.snippets_panel a:visited {
     color: #eee;
 }
 
-.snippets ul {
+.snippets ul,
+.packages ul {
     list-style: none;
     padding: 0;
     margin-left: 14px;
 }
 
-.snippets li {
+.snippets li,
+.packages li {
     overflow-x: hidden;
     text-overflow: ellipsis;
     list-style: none;
 }
 
 .snippets li.file::before,
-.snippets li.folder::before {
+.snippets li.folder::before,
+.packages li.package::before,
+.packages li.composer::before,
+.packages li.classes::before,
+.packages li.composer ul > li::before,
+.packages li.classes ul > li::before {
     font-family: FontAwesome;
 }
 
@@ -130,17 +140,38 @@ div[class*="col"] {
     content: "\f07b\00a0";
 }
 
-.snippets li.file {
+.packages li.package::before {
+    color: #91D0F1;
+    content: "\f187\00a0";
+}
+
+.packages li.composer::before {
+    content: "\f1c0\00a0";"
+}
+
+.packages li.classes::before {
+    content: "\f24d\00a0";"
+}
+
+.packages li.composer ul > li::before,
+.packages li.classes ul > li::before {
+    content: "\f121\00a0";"
+}
+
+.snippets li.file,
+.packages ul > li > ul > li {
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;;
 }
 
-.snippets li.file:hover {
+.snippets li.file:hover,
+.packages ul > li > ul > li:hover {
     border-bottom: 1px dashed #555;
     border-top: 1px dashed #555;
 }
 
-.snippets .fa-trash-o {
+.snippets .fa-trash-o,
+.packages .fa-trash-o {
     cursor: pointer;
     position: relative;
     top: 3px;

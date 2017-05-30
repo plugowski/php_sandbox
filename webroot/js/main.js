@@ -7,6 +7,11 @@ $(function(){
     var $loader = $('.loader');
     var editor = ace.edit("editor");
     var PhpMode = ace.require("ace/mode/php").Mode;
+    var $alert = $('<div class="alert" role="alert">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+        '<span class="message" />' +
+        '</div>');
+
     var postCode = function(editor) {
 
         if (alloweRequest === false) {
@@ -58,6 +63,84 @@ $(function(){
         });
     };
 
+    var addLibrary = function() {
+        bootbox.prompt("Enter package like: components/jquery:2.2.*", function(result) {
+            if (result !== null) {
+                $loader.removeClass('hidden');
+
+                // todo: walidacja aphanumeric
+                // todo: walidacja czy paczka istnieje
+
+                $.post('add_library.json', {name: result}, function(response){
+
+                    response = JSON.parse(response);
+                    if (response.status == 'error') {
+                        $alert.addClass('alert-warning').find('.message').html('<strong>Problem when adding package!</strong> ' + response.message);
+                        $('#alerts').append($alert);
+                    }
+
+                    $loader.addClass('hidden');
+                    setTimeout(loadLibrariesList(), 1000);
+                });
+            }
+            editor.focus();
+        });
+    };
+
+    var loadLibrariesList = function() {
+        $loader.removeClass('hidden');
+        $('.packages ul').not('.main').remove();
+
+        $.getJSON('/get_libraries_list.json', function(response){
+            var $ul =  $('<ul/>');
+            var $delete = $('<i class="fa fa-trash-o pull-right" />');
+            // var ul = $ul.clone();
+
+            $.each(response, function(i, item){
+                var ul = $ul.clone();
+
+                ul.append($('<li/>').addClass(i).html(i).append($('<ul />')));
+
+                $.each(item, function(k, v){
+                    var delIcon = $delete.clone();
+                    ul.find('.' + i + ' ul').append($('<li/>').html(v.name + ' (' + v.version +')').append(delIcon));
+                    delIcon.click(function(){ deleteLibrary(v.name); });
+                });
+
+                $('.packages .package').append(ul);
+            });
+
+            $loader.addClass('hidden');
+        });
+    };
+
+    var deleteLibrary = function(filename) {
+        bootbox.dialog({
+            title: "Confirm library deletion",
+            message: "Are you sure to delete library: <strong>" + filename + "</strong>",
+            buttons: {
+                main: {
+                    label: "Cancel",
+                    callback: function () {
+                        editor.focus();
+                    }
+                },
+                danger: {
+                    label: "Delete",
+                    className: "btn-danger",
+                    callback: function () {
+                        $loader.removeClass('hidden');
+
+                        $.post('/delete_library/' + filename, {_method: 'DELETE'}, function (response) {
+                            $loader.addClass('hidden');
+                            setTimeout(loadLibrariesList(), 1000);
+                        });
+                    }
+                }
+            }
+        });
+    };
+
     var loadSnippetsList = function() {
 
         $loader.removeClass('hidden');
@@ -72,11 +155,6 @@ $(function(){
     };
 
     var saveSnippet = function(code) {
-        var $alert = $('<div class="alert" role="alert">' +
-            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-            '<span class="message" />' +
-        '</div>');
-
         bootbox.prompt("Enter name for new snippet:", function(result) {
             if (result !== null) {
                 $loader.removeClass('hidden');
@@ -102,7 +180,7 @@ $(function(){
     var deleteSnippet = function(filename) {
         bootbox.dialog({
             title: "Confirm file deletion",
-            message: "Are you sure to delete file: " + filename,
+            message: "Are you sure to delete file: <strong>" + filename + "</strong>",
             buttons: {
                 main: {
                     label: "Cancel",
@@ -196,6 +274,11 @@ $(function(){
         $('.output').toggleClass('format', $(this).is(':checked'));
     });
 
+    $('#addLibrary').click(function(e){
+        e.preventDefault();
+        addLibrary();
+    });
+
     $('#saveSnippet').click(function(e){
         e.preventDefault();
         saveSnippet(editor.getValue());
@@ -273,6 +356,13 @@ $(function(){
     });
 
     editor.commands.addCommand({
+        name: "addlibrary",
+        bindKey: {win: "Ctrl-Shift-P", mac: "Command-Shift-P"},
+        exec: function() { addLibrary(); },
+        scrollIntoView: "cursor"
+    });
+
+    editor.commands.addCommand({
         name: "showsnippetlist",
         bindKey: {win: "Ctrl-Shift-L", mac: "Command-Shift-L"},
         exec: function() { toggleSnippetList(); },
@@ -284,10 +374,15 @@ $(function(){
         saveSnippet(editor.getValue());
     });
 
+    Mousetrap.bind(["ctrl+shift+p", "command+shift+p"], function(){
+        addLibrary();
+    });
+
     Mousetrap.bind(["ctrl+shift+l", "command+shift+l"], function(){
         toggleSnippetList();
     });
 
     loadPhpVersions();
     loadSnippetsList();
+    loadLibrariesList();
 });
