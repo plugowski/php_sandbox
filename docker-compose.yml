@@ -5,8 +5,14 @@ services:
         volumes:
             - .:/var/www/phpsandbox
         tty: true
+    php56:
+        build: config/docker/php56
+        volumes:
+            - /var/www/phpsandbox/tmp/logs
+        volumes_from:
+            - app
     php70:
-        build: config/docker/php71
+        build: config/docker/php70
         volumes:
             - /var/www/phpsandbox/tmp/logs
         volumes_from:
@@ -22,6 +28,7 @@ services:
         ports:
             - 8080:80
         depends_on:
+            - php56
             - php70
             - php71
         volumes_from:

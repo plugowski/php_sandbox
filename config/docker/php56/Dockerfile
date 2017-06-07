@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:5.6-fpm
 
 # Install modules
 RUN apt-get update && apt-get install -y \
@@ -19,7 +19,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_pgsql \
     && docker-php-ext-install zip \
     && docker-php-ext-install xsl \
-    && docker-php-ext-install sockets \
     && apt-get purge --auto-remove -y g++ \
     && rm -rf /var/lib/apt/lists/*
 
