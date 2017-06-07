@@ -49,7 +49,7 @@
 
         &nbsp;
 
-        <select id="php-version" name="php-version" class="selectpicker" data-width="fit" data-style="btn-success" title="PHP Version"></select>
+        <select id="php-version" name="php-version" class="selectpicker" data-width="fit" data-style="btn-success"></select>
 
         <a href="#" class="btn btn-primary evaluate"><i class="fa fa-play"></i> Evaluate</a>
     </div>

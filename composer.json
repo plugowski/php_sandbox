@@ -44,7 +44,9 @@
             "cp -R vendor/robintail/ace-builds/src/ webroot/js/ace/",
             "cp -R vendor/fortawesome/font-awesome/css/ webroot/css/",
             "cp -R vendor/fortawesome/font-awesome/fonts/ webroot/fonts/",
-            "cp -R vendor/bootstrap-select/bootstrap-select/dist/ webroot/"
+            "cp -R vendor/bootstrap-select/bootstrap-select/dist/ webroot/",
+            "mkdir -p tmp/snippets",
+            "mkdir -p tmp/vendor"
         ]
     }
 }
