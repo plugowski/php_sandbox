@@ -11,38 +11,31 @@ Simple and usefull tool to execute custom php scripts. It allows to block specif
 Clone that repository wherever you want (in my example `/www/php_sandbox`)
 
 ```
-$ cd /www
-$ git clone git@github.com:plugowski/php_sandbox.git 
+$ git clone git@github.com:plugowski/php_sandbox.git
+$ cd php_sandbox
 ```
 
-and load all dependencies:
+and load all dependencies via composer:
 
 
 ```
-composer update --no-dev
+$ composer install
 ```
 
-Create entry in `/etc/hosts` for example:
+The final step is to run docker using docker-compose commands (of course the first step is to install docker for your environment.
 
 ```
-sudo echo "127.0.0.1  phpsandbox.lc" >> /etc/hosts
+$ docker-compose build
+$ docker-compose up -d
 ```
 
-Add new `vhost` configuration in your apache:
+Now you have working docker, go to your favourite browser and hit that addres:
 
 ```
-<VirtualHost *:80>
-    DocumentRoot /www/php_sandbox/webroot
-    ServerName phpsandbox.lc
-    <Directory "/www/php_sandbox/webroot">
-        AllowOverride All
-        Order Allow,Deny
-        Allow From All
-    </Directory>
-</VirtualHost>
+localhost:8080
 ```
 
-Restart Apache, and Voila!
+Voila!
 
 ## Configuration
 
