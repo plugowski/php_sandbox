@@ -1,5 +1,7 @@
 /vendor/
 /tmp/
+!/tmp/snippets/empty
+!/tmp/vendor/empty
 
 # composer loaded files
 /webroot/js/*

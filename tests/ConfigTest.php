@@ -11,10 +11,10 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function shouldLoadConfigAndGetCorrectValue()
     {
-        $config = new Config(__DIR__ . '/../src/config.php');
-        $command = $config->read('php_command');
+        $config = new Config(__DIR__ . '/../config/config.php');
+        $command = $config->read('fast_cgi_hosts');
 
-        $this->assertEquals('php', $command);
+        $this->assertEquals('php56', $command['5.6']);
         $this->assertTrue($config->has('tmp_dir'));
     }
 
@@ -23,7 +23,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function shouldLoadConfigAndModifyExistingKey()
     {
-        $config = (new Config(__DIR__ . '/../src/config.php'))
+        $config = (new Config(__DIR__ . '/../config/config.php'))
             ->write('tmp_dir', '/tmp/sandbox_test/');
 
         $this->assertEquals('/tmp/sandbox_test/', $config->read('tmp_dir'));

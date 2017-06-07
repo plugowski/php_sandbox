@@ -15,7 +15,7 @@ use PhpSandbox\Snippet\SnippetRepository;
 use PhpSandbox\Snippet\SnippetService;
 
 // load config file
-$config = new Config(__DIR__ . '/../src/config.php');
+$config = new Config(__DIR__ . '/../config/config.php');
 $routing = new RouteCollection();
 
 /**
@@ -42,14 +42,13 @@ $routing->attach(new Route('POST /execute/@phpversion.json [ajax]', ['phpversion
 
         $version = !empty($params['phpversion']) ? $params['phpversion'] : null;
 
-        $evaluator = new Evaluator($config);
-        $evaluator->setPHP($version);
+        $evaluator = new Evaluator($config, $version);
         $result = $evaluator->evaluate($code);
 
         $benchmark = [
-            'memory' => sprintf('%.3f', ($evaluator->getMemory()) / 1024.0 / 1024.0),
-            'memory_peak' => sprintf('%.3f', ($evaluator->getMemoryPeak()) / 1024.0 / 1024.0),
-            'time' => sprintf('%.3f', (($evaluator->getTime()) * 1000))
+            'memory' => sprintf('%.3f', $evaluator->getMemory() / 1024.0 / 1024.0),
+            'memory_peak' => sprintf('%.3f', $evaluator->getMemoryPeak() / 1024.0 / 1024.0),
+            'time' => sprintf('%.3f', $evaluator->getTime() * 1000)
         ];
 
         echo json_encode(compact('result', 'benchmark'));
@@ -137,7 +136,7 @@ $routing->attach(new Route('POST  /add_library.json [ajax]', function() use ($co
  * Get available php versions
  */
 $routing->attach(new Route('GET  /get_php_versions.json [ajax]', function() use ($config) {
-    $phpPaths = $config->read('php_commands');
+    $phpPaths = $config->read('fast_cgi_hosts');
     $versions = empty($phpPaths) ? [] : array_keys($phpPaths);
     echo json_encode(compact('versions'));
 }));

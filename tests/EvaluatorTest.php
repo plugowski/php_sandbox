@@ -17,7 +17,7 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
      */
     private function getEvaluator()
     {
-        return new Evaluator($this->getConfig());
+        return new Evaluator($this->getConfig(), '7.0');
     }
 
     /**
@@ -25,7 +25,7 @@ class EvaluatorTest extends PHPUnit_Framework_TestCase
      */
     private function getConfig()
     {
-        return (new Config(__DIR__ . '/../src/config.php'))
+        return (new Config(__DIR__ . '/../config/config.php'))
         ->write('tmp_dir', '/tmp/sandbox_test/')
         ->write('disable_functions', ['shell_exec']);
     }

@@ -30,7 +30,7 @@
 <nav class="navbar navbar-inverse">
 
     <div class="navbar-header">
-        <span class="navbar-brand">PHP Sandbox v1.3</span>
+        <span class="navbar-brand">PHP Sandbox v1.4</span>
     </div>
 
 <!--    <span class="kbd" data-macos="⇧⌘S">Ctrl+Shift+S</span> -->
@@ -73,6 +73,7 @@
     <div class="col-xs-6 preview">
         <div class="loader hidden"><i class="fa fa-cog fa-spin"></i></div>
         <div id="benchmark">
+            PHP <?php echo PHP_VERSION; ?>,
             <span data-toggle="tooltip" data-placement="top" title="Memory Usage"><i class="fa fa-tachometer"></i> <span class="memory">0.000</span> MB</span>,
             <span data-toggle="tooltip" data-placement="top" title="Memory Peak"><i class="fa fa-area-chart"></i> <span class="memory_peak">0.000</span> MB</span>,
             <span data-toggle="tooltip" data-placement="top" title="Time"><i class="fa fa-clock-o"></i> <span class="time">0.00</span> ms</span>
