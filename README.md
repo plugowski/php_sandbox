@@ -91,6 +91,11 @@ Ctrl-Shift-P | Command-Shift-P | Add Library / Package
 
 ## Changelog
 
+- 1.4
+  - docker! Now you can use Sandbox with containers and don't be afraid about lost data from computer while use dangerous functions
+  - multi php now uses fastcgi to evaluate php scripts, no shel_exec anymore :)
+  - small refactoring
+  - new Kint for debugging
 - 1.3
   - added library manager, now you are able to add external libraries from packagist, and use it in sandbox directly
 - 1.2

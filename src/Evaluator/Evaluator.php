@@ -1,6 +1,9 @@
 <?php
 namespace PhpSandbox\Evaluator;
 
+use EBernhardson\FastCGI\Client;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+
 /**
  * Class Evaluator
  * @package PhpSandbox
@@ -29,23 +32,23 @@ class Evaluator
     /**
      * @var string
      */
-    private $php;
+    private $phpVersion;
 
     /**
      * Evaluator constructor.
      * @param Config $config
      */
-    public function __construct(Config $config)
+    public function __construct(Config $config, $phpVersion = null)
     {
         $this->config = $config;
-        $this->php = $this->config->read('php_command');
+        $this->setPHP($phpVersion);
     }
 
     /**
      * @param string $code
      * @return string
      */
-    public function evaluate($code)
+    public function evaluate(string $code): string
     {
         $dir = $this->config->read('tmp_dir');
 
@@ -58,7 +61,7 @@ class Evaluator
         $code = $this->insertBootstrap($code);
         $code = $this->insertBenchmarks($code);
 
-        $fp = fopen($filename, 'w');
+        $fp = fopen($filename, 'wb');
         fwrite($fp, $code);
         fclose($fp);
 
@@ -72,27 +75,25 @@ class Evaluator
      * @return string
      * @throws \Exception
      */
-    public function evaluateFile($filename)
+    public function evaluateFile(string $filename): string
     {
         if (!file_exists($filename)) {
-            throw new \Exception('File not found: ' . $filename);
+            throw new FileNotFoundException('File not found: ' . $filename);
         }
-
-        $cmd = [
-            $this->php,
-            $this->getDirectivesString(),
-            $filename,
-            '3>&1 1>&1 2>&1'
-        ];
 
         $start = microtime(true);
 
-        $output = shell_exec(implode(' ', $cmd));
+        $client = new Client($this->phpVersion, '9000');
+
+        $output = $client->request([
+            'REQUEST_METHOD'  => 'GET',
+            'SCRIPT_FILENAME' => $filename,
+            'HTTP_ACCEPT'     => 'application/json',
+        ], '');
 
         $this->time = microtime(true) - $start;
 
-        return $this->parseOutput($output);
-
+        return $this->parseOutput($output['body']);
     }
 
     /**
@@ -157,22 +158,7 @@ class Evaluator
     /**
      * @return string
      */
-    private function getDirectivesString()
-    {
-        $cmd = '';
-        if ($this->config->has('disable_functions')) {
-            $cmd .= ' -d disable_functions=' . implode(',', $this->config->read('disable_functions'));
-        }
-        foreach ($this->config->read('directives') as $name => $value) {
-            $cmd .= ' -d ' . $name . '=' . $value;
-        }
-        return $cmd;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastCode()
+    public function getLastCode(): string
     {
         $file = file_get_contents($this->config->read('tmp_dir') . self::FILENAME);
         $contents = explode(PHP_EOL, $file);
@@ -215,13 +201,13 @@ class Evaluator
     }
 
     /**
-     * @param string|null $version
+     * @param string $version
      */
-    public function setPHP($version = null)
+    private function setPHP($version)
     {
-        $phpVersions = $this->config->read('php_commands');
-        if (is_array($phpVersions) && in_array($version, array_keys($phpVersions))) {
-            $this->php = $phpVersions[$version];
+        $phpVersions = $this->config->read('fast_cgi_hosts');
+        if (is_array($phpVersions) && array_key_exists($version, $phpVersions)) {
+            $this->phpVersion = $phpVersions[$version];
         }
     }
 }

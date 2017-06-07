@@ -12,9 +12,9 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function shouldLoadConfigAndGetCorrectValue()
     {
         $config = new Config(__DIR__ . '/../config/config.php');
-        $command = $config->read('php_command');
+        $command = $config->read('fast_cgi_hosts');
 
-        $this->assertEquals('php', $command);
+        $this->assertEquals('php56', $command['5.6']);
         $this->assertTrue($config->has('tmp_dir'));
     }
 

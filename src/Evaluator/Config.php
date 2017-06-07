@@ -40,7 +40,7 @@ class Config
      * @param mixed $value
      * @return $this
      */
-    public function write($key, $value)
+    public function write(string $key, $value)
     {
         $this->items[$key] = $value;
         return $this;
