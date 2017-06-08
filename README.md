@@ -37,33 +37,6 @@ localhost:8080
 
 Voila!
 
-## Configuration
-
-You can change blocked function list or add/change more directives for php evaluator. To do that, open `src/config.php` 
-and change settings you want.
-
-It is possible to define multiple versions of PHP which will be available from sandbox. So first please install required versions of php on your machine (MacPorts, apt-get etc):
-
-```
-sudo port install php53
-sudo port install php54
-sudo port install php55
-sudo port install php56
-sudo port install php70
-```
-
-Then update php_commands in config file:
-
-```php
-'php_commands' => [
-    '5.3' => '/opt/local/bin/php53',
-    '5.4' => '/opt/local/bin/php54',
-    '5.5' => '/opt/local/bin/php55',
-    '5.6' => '/opt/local/bin/php56',
-    '7.0' => '/opt/local/bin/php70'
-]
-```
-
 ## Usage
 
 Just type some code and push `Evaluate` button or use keyboard shortcut on Mac `Command+Enter` or `Ctrl+Enter` on Windows.
