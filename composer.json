@@ -18,9 +18,10 @@
         "kint-php/kint": "2.*",
         "composer/composer": "1.4.2",
         "robintail/ace-builds": "1.2.*",
-        "components/jquery": "2.2.*",
+        "components/jquery": "2.2.4",
+        "components/bootstrap": "3.4.0",
         "makeusabrew/bootbox": "dev-master",
-        "bootstrap-select/bootstrap-select": "1.9.4",
+        "snapappointments/bootstrap-select": "1.13.5",
         "fortawesome/font-awesome": "4.*",
         "php": ">=5.6",
         "ebernhardson/fastcgi": "0.2.*"
@@ -43,7 +44,7 @@
             "cp -R vendor/robintail/ace-builds/src/* webroot/js/ace/",
             "cp -R vendor/fortawesome/font-awesome/css/* webroot/css/",
             "cp -R vendor/fortawesome/font-awesome/fonts webroot/fonts/",
-            "cp -R vendor/bootstrap-select/bootstrap-select/dist/* webroot/",
+            "cp -R vendor/snapappointments/bootstrap-select/dist/* webroot/",
             "mkdir -p tmp/snippets",
             "mkdir -p tmp/vendor"
         ]
