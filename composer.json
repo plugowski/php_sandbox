@@ -35,15 +35,15 @@
     },
     "scripts": {
         "post-update-cmd": [
-            "cp -R vendor/components/bootstrap/css/ webroot/css/",
-            "cp -R vendor/components/bootstrap/js/ webroot/js/",
+            "cp -R vendor/components/bootstrap/css/* webroot/css/",
+            "cp -R vendor/components/bootstrap/js/* webroot/js/",
             "cp -R vendor/makeusabrew/bootbox/bootbox.js webroot/js/",
             "mkdir -p webroot/js/ace",
             "cp vendor/components/jquery/jquery.min.js webroot/js/",
-            "cp -R vendor/robintail/ace-builds/src/ webroot/js/ace/",
-            "cp -R vendor/fortawesome/font-awesome/css/ webroot/css/",
-            "cp -R vendor/fortawesome/font-awesome/fonts/ webroot/fonts/",
-            "cp -R vendor/bootstrap-select/bootstrap-select/dist/ webroot/",
+            "cp -R vendor/robintail/ace-builds/src/* webroot/js/ace/",
+            "cp -R vendor/fortawesome/font-awesome/css/* webroot/css/",
+            "cp -R vendor/fortawesome/font-awesome/fonts webroot/fonts/",
+            "cp -R vendor/bootstrap-select/bootstrap-select/dist/* webroot/",
             "mkdir -p tmp/snippets",
             "mkdir -p tmp/vendor"
         ]
