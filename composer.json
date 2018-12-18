@@ -37,7 +37,6 @@
         "post-update-cmd": [
             "cp -R vendor/components/bootstrap/css/ webroot/css/",
             "cp -R vendor/components/bootstrap/js/ webroot/js/",
-            "cp -R vendor/components/bootstrap/fonts/ webroot/fonts/",
             "cp -R vendor/makeusabrew/bootbox/bootbox.js webroot/js/",
             "mkdir -p webroot/js/ace",
             "cp vendor/components/jquery/jquery.min.js webroot/js/",
