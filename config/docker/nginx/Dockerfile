@@ -8,3 +8,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY conf.d/sandbox.conf /etc/nginx/conf.d/sandbox.conf
 
 RUN usermod -u 1000 www-data
+RUN chown -R 1000:1000 /var/www/phpsandbox/tmp
